@@ -4,6 +4,11 @@ const fs = require('fs');
 const config = require('./config.js');
 const nuxtoption =require('./nuxt.config.js');
 
+const mongoose = require('mongoose');
+mongoose.Promise=Promise;
+
+var database= require('./config');
+
 
 
 var app = new Koa();
@@ -17,10 +22,26 @@ app.use(async (ctx, next) => {
 const handlers = fs.readdirSync('./handlers').sort();
 handlers.forEach((handler)=>require('./handlers/'+ handler).init(app));
 
+var db_error =false
+var db =  mongoose.connect(database.db,database.options,(err) =>{
+    if(err){
+        db_error=err
+    }
+});
 
-
-// console.log(handlers);
-// app.use(require('./routers').routes());
+app.use(async(ctx,next)=>{
+    if(db_error){
+        console.log(db_error);
+        ctx.status = 200
+        ctx.type ='json';
+        ctx.body ={
+            error:'Database conection error'
+        }
+    }else{
+        await next();
+    }
+    //
+})
 
 const {Nuxt, Builder} = require('nuxt')
 const options = {}
@@ -45,6 +66,6 @@ app.use(async (ctx, next) => {
       // })
     })
 })
-
+app.use(require('./routers').routes());
 
 app.listen(config.port)

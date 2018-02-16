@@ -1,10 +1,13 @@
 const BaseSchema = require('../schemas/index');
 const mongoose = require('mongoose');
 var database= require('../config')
-var db =  mongoose.connect(database.db,database.options);
+var db =  mongoose.connect(database.db,database.options,(err) =>{
+    console.log(err);
+    
+});
+// console.log(db);
 const fs = require('fs');
 
-// console.log(db);
 mongoose.Promise=Promise;
 
 module.exports={
