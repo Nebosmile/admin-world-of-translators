@@ -43,6 +43,7 @@ app.use(async(ctx,next)=>{
     //
 })
 
+app.use(require('./routers').routes());
 const {Nuxt, Builder} = require('nuxt')
 const options = {}
 
@@ -66,6 +67,6 @@ app.use(async (ctx, next) => {
       // })
     })
 })
-app.use(require('./routers').routes());
+
 
 app.listen(config.port)

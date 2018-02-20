@@ -7,11 +7,23 @@
 			 <nuxt-link to="123">123</nuxt-link>
 		</div>
 		<form class="" method="post">
-			<label for="">
-				введите новые данные
-				<input type="text" name="word" value="" ref='word'>
-			</label>
+			<div class="inputblock">
+				<label for="">
+					English
+					<input type="text" name="english" value="" ref='word'>
+				</label>
+				<label for="">
+					Russian
+					<input type="text" name="russian" value="" ref='russian'>
+				</label>
+				<label for="">
+					Ukrainian
+					<input type="text" name="ukrainian" value="" ref='ukrainian'>
+				</label>
+
+			</div>
 			<input @click='buttonclick' type="button" value='edit' >
+
 
 		</form>
 	</div>
@@ -29,9 +41,14 @@ export default {
 	methods:{
 		buttonclick(){
 			console.log('button cliked');
-			var word = this.$refs.word.value
+			var english = this.$refs.word.value;
+			var russian = this.$refs.word.value;
+			var ukrainian = this.$refs.word.value;
 			var post_data={
-				english:word
+				'english':english,
+				'russian':russian,
+				'ukrainian':ukrainian,
+
 			}
 			$.ajax({
 				url:'/word',
@@ -47,5 +64,5 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
 </style>
