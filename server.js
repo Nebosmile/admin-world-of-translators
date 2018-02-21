@@ -29,18 +29,30 @@ var db =  mongoose.connect(database.db,database.options,(err) =>{
     }
 });
 
+// app.use(async(ctx,next)=>{
+//     if(db_error){
+//         console.log(db_error);
+//         ctx.status = 200
+//         ctx.type ='json';
+//         ctx.body ={
+//             error:'Database conection error'
+//         }
+//     }else{
+//         await next();
+//     }
+// })
+
 app.use(async(ctx,next)=>{
+    console.log(db_error);
     if(db_error){
-        console.log(db_error);
-        ctx.status = 200
-        ctx.type ='json';
-        ctx.body ={
-            error:'Database conection error'
-        }
-    }else{
-        await next();
+        ctx.databaseconection=false;
+
+    } else{
+        ctx.databaseconection=true;
     }
-    //
+    console.log(ctx.databaseconection);
+    await next();
+
 })
 
 app.use(require('./routers').routes());

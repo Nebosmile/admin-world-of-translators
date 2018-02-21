@@ -51,7 +51,7 @@ export default {
 
 			}
 			$.ajax({
-				url:'/word',
+				url:'/admin/word',
 				data:post_data,
 				type:'POST',
 				dataType:'json',

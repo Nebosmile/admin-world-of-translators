@@ -1,5 +1,7 @@
 const Router = require('koa-router');
-const router = new Router();
+const router = new Router({
+	prefix:'/admin'
+});
 const serve = require('koa-static');
 
 
@@ -8,12 +10,21 @@ const word_controller = require('./controlers/words_control');
 
 
 
+router.use('/*',async (ctx,next)=>{
+	if(ctx.databaseconection){
+		await next()
+	}else{
+	   	ctx.status = 200
+	   	ctx.type ='json';
+	   	ctx.body ={
+	       	error:'Database conection error'
+	   	}
+	}
 
+});
 router.get('/',base_controller.get_index);
-
-
-
 router.post('/',base_controller.post_index)
+
 router.post('/word',word_controller.save)
 
 
