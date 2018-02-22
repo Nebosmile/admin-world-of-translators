@@ -43,14 +43,12 @@ var db =  mongoose.connect(database.db,database.options,(err) =>{
 // })
 
 app.use(async(ctx,next)=>{
-    console.log(db_error);
     if(db_error){
         ctx.databaseconection=false;
 
     } else{
         ctx.databaseconection=true;
     }
-    console.log(ctx.databaseconection);
     await next();
 
 })

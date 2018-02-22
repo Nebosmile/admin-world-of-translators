@@ -36,15 +36,22 @@ module.exports={
 	async search_item(ctx){
 		console.log('search');
 		var result;
-		await wordShema.findOne({english:ctx.request.body.english},(err, element)=>{
-			if(err){
-				return done(err);
-			}
+		// await wordShema.findOne({english:ctx.request.body.english},(err, element)=>{
+		// 	if(err){
+		// 		return done(err);
+		// 	}
+        //
+		// 	result= element
+		// });
+        await wordShema.find({},(err, element)=>{
+            if(err){
+                return done(err);
+            }
 
-			result= element
-		});
+            result= element
+        });
 		ctx.type='json';
-		ctx.body='result'
+		ctx.body=result
 	},
 	async delete_item(ctx){
 

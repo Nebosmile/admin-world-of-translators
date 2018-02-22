@@ -25,7 +25,8 @@ router.use('/*',async (ctx,next)=>{
 router.get('/',base_controller.get_index);
 router.post('/',base_controller.post_index)
 
-router.post('/word',word_controller.save)
+router.post('/word/add',word_controller.save);
+router.post('/word/search',word_controller.search_item)
 
 
 

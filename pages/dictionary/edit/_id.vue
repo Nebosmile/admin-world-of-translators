@@ -23,13 +23,20 @@
 
 			</div>
 			<input @click='buttonclick' type="button" value='edit' >
-
+			<div class="">
+				<input @click='search' type="button" name="" value="search">
+			</div>
+			<!-- <iframe id="ytplayer" type="text/html" width="720" height="405"
+src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&controls=0&loop=1&rel=0&showinfo=0"
+frameborder="0" allowfullscreen></iframe> -->
 
 		</form>
+		<tableindex></tableindex>
 	</div>
 </template>
 
 <script>
+import tableindex from '@/components/table/tableindex'
 import config from '@/nuxt.config.js'
 export default {
 	async asyncData({params, env}){
@@ -37,6 +44,9 @@ export default {
 			'usid':params.id,
 			'users':env.users,
 		}
+	},
+	components:{
+		tableindex,
 	},
 	methods:{
 		buttonclick(){
@@ -51,8 +61,18 @@ export default {
 
 			}
 			$.ajax({
-				url:'/admin/word',
+				url:'/admin/word/add',
 				data:post_data,
+				type:'POST',
+				dataType:'json',
+				success:function(data) {
+					console.log(data);
+				}
+			})
+		},
+		search(){
+			$.ajax({
+				url:'/admin/word/search',
 				type:'POST',
 				dataType:'json',
 				success:function(data) {
