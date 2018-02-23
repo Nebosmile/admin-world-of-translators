@@ -1,11 +1,22 @@
 <template>
     <div class="main_wrap">
+        <div class="head_section">
+            <div class="">
+                <img src="@/static/img/gumbdark.png" alt="">
+                Show_hide
+            </div>
+            header
+        </div>
         <div class="menu_section">
             <mainmenu></mainmenu>
         </div>
 
-        <h1>Добро пожаловать на главню страницу</h1>
-        <nuxt/>
+
+        <div class="admin_wrap">
+            <h1>Добро пожаловать на главню страницу</h1>
+            <nuxt/>
+        </div>
+
     </div>
 
 </template>
@@ -30,10 +41,20 @@ ul{
 }
 .menu_section{
     border-bottom: solid 1px #8a8a8a;
+    position: fixed;
+    overflow: hidden;
+    top: 50px;
+    border-right: 1px solid #000;
+    width: 200px;
+    z-index: 3;
+    min-height: 100%;
+    background-color: #fff;
+    transition: width .1s linear;
+
 
     .menu_wrap{
         .menu{
-            display: flex;
+            // display: flex;
             li{
                 list-style: none;
                 padding: 5px;
@@ -43,7 +64,7 @@ ul{
                     color: #000;
                     text-transform: uppercase;
                     text-decoration: none;
-                    border-left: solid 1px #000;
+                    border-bottom: solid 1px #000;
                     padding: 7px;
                 }
                 a:hover{
