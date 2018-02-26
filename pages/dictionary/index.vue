@@ -1,12 +1,59 @@
 <template lang="html">
 	<div class="">
-		dictionary
+		<input @click='search' type="button" name="" value="dictionary">
+		<tableindex v-if='table.ansver' :options='table'></tableindex>
 	</div>
 </template>
 
 <script>
+import tableindex from '@/components/table/tableindex'
+
 export default {
 	layout:'base_page',
+	components:{
+		tableindex,
+	},
+	async asyncData(){
+		return{
+			table:{
+				tableoption:{
+					name:'Detailed info',
+
+				},
+				set_value:'',
+				ansver:'',
+				count:'',
+				clickevent_tr: {
+					callevent: 'add_user_to_list',
+				},
+				initvalue:[
+					{value: 'counter', name:'Counter',status:'checked',default:'1'},
+					{value:'_id', name:'ID',status:'checked',default:'1',
+						clickevent:{
+							callevent:'getrounds',
+						}
+					},
+					{value: 'english', name:'English',status:'checked',default:'1'},
+				]
+			},
+		}
+	},
+	methods:{
+		search(){
+			$.ajax({
+				url:'/admin/word/search',
+				type:'POST',
+				dataType:'json',
+				success:(data)=> {
+					console.log(data.result);
+					this.table.ansver = data.result;
+				}
+			})
+		}
+	},
+	mounted(){
+		this.search()
+	}
 }
 </script>
 

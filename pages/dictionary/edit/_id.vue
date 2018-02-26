@@ -1,6 +1,6 @@
 <template lang="html">
 	<div class="">
-		<script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+
 		<div class="">
 			id is {{usid}}
 			 <!-- {{users}} -->
@@ -31,22 +31,22 @@ src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&controls=0&loop=1&rel=
 frameborder="0" allowfullscreen></iframe> -->
 
 		</form>
-		<tableindex></tableindex>
 	</div>
 </template>
 
 <script>
-import tableindex from '@/components/table/tableindex'
+
 import config from '@/nuxt.config.js'
 export default {
+	layout:'base_page',
+	components:{
+		// tableindex,
+	},
 	async asyncData({params, env}){
 		return{
 			'usid':params.id,
 			'users':env.users,
 		}
-	},
-	components:{
-		tableindex,
 	},
 	methods:{
 		buttonclick(){
@@ -70,16 +70,7 @@ export default {
 				}
 			})
 		},
-		search(){
-			$.ajax({
-				url:'/admin/word/search',
-				type:'POST',
-				dataType:'json',
-				success:function(data) {
-					console.log(data);
-				}
-			})
-		}
+
 	}
 }
 </script>

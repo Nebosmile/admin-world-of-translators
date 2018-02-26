@@ -2,7 +2,7 @@
   	<div class="menu_wrap container">
   		<ul class="menu">
   			<li v-for='(elem, index) in menu'>
-				<router-link :to='index'>{{elem}}</router-link>
+				<router-link :to='elem.link'>{{elem.text}}</router-link>
 			</li>
   		</ul>
   	</div>
@@ -13,10 +13,10 @@ export default {
 	name:'mainmenu',
 	data(){
 		return{
-			menu:{
-				dictionary:"dictionaryText",
-				dictionary2:"dictionaryText2",
-			}
+			menu:[
+                {link:'/dictionary',text:'dictionarytext'},
+                {link:'/dictionary2',text:'dictionarytext2'}
+            ]
 		}
 	}
 }

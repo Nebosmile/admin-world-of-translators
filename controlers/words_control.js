@@ -50,8 +50,11 @@ module.exports={
 
             result= element
         });
+        var obj={}
+        obj.result=result;
+        obj.status='200';
 		ctx.type='json';
-		ctx.body=result
+		ctx.body=obj
 	},
 	async delete_item(ctx){
 
