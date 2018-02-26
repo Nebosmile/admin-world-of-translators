@@ -14,8 +14,17 @@ export default {
 	data(){
 		return{
 			menu:[
-                {link:'/dictionary',text:'dictionarytext'},
-                {link:'/dictionary2',text:'dictionarytext2'}
+                {
+                    link:'/dictionary',
+                    text:'dictionarytext',
+                    childs:{
+                        
+                    }
+                },
+                {
+                    link:'/dictionary2',
+                    text:'dictionarytext2'
+                }
             ]
 		}
 	}
