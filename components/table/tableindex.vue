@@ -44,7 +44,8 @@
             <table class="hideitem">
                 <thead>
                     <tr>
-                        <th v-for='(items,index) in options.initvalue'>
+                        <th v-for='(items,index) in options.initvalue'
+                            v-if='Checkstatus(items)'>
                             {{items.name }}
                         </th>
                     </tr>
@@ -56,6 +57,7 @@
                     >
                         <td v-for='(elem, index2) in options.initvalue'
                             :class="{clicker:(elem.clickevent!=undefined)}"
+                            v-if='Checkstatus(elem)'
                         >
                             <p v-on:click='((elem.clickevent!=undefined)? checkevent(elem.clickevent, item): null)'
                             >{{setvalue(item[elem.value], elem.value, index + 1,elem)}}</p>
@@ -180,6 +182,16 @@ export default {
                 }
             })
         },
+        Checkstatus:function(obj) {
+            if(obj.status=='checked'){return true}
+            else {return false}
+        },
+        newStatus:function(obj) {
+            console.log(obj);
+            if(obj.status=='checked'){obj.status='hide'}
+            else {obj.status='checked'}
+            console.log(obj);
+        },
         check(obj){
             var elem =obj;
             var hideButton = elem.getElementsByClassName('hideButton')[0];
@@ -265,6 +277,9 @@ export default {
 </script>
 
 <style lang="scss">
+.hidewrapitem{
+    overflow: hidden;
+}
 .hidewrap {
     margin-bottom: 20px;
     overflow: hidden;
@@ -302,11 +317,48 @@ export default {
 .hidewrap.overflow_hidden_none{
   overflow: inherit;
 
-  th{
-    background-color: #ececec;
-    position:sticky;
-    top: 83px;
-  }
+  // th{
+  //   background-color: #ececec;
+  //   position:sticky;
+  //   top: 83px;
+  // }
+}
+.filterblockin {
+    padding: 20px;
+    position: fixed;
+    z-index: 10;
+    width: 50%;
+    min-width: 200px;
+    max-width: 1600px;
+    max-height: 60vh;
+    overflow: auto;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 3px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -30vh);
+    min-height: 100px;
+}
+.filterblockin label {
+    display: inline-block;
+    float: left;
+    padding: 5px;
+    width: 30%;
+    margin-right: 3%;
+    min-width: 120px;
+    max-width: 140px;
+    text-align: left;
+    margin: 0 auto;
+    cursor: pointer;
+}
+.filterblockin div {
+    clear: both;
+    width: 100%;
+    text-align: center;
+}
+.filterblockin ul {
+    list-style: none;
 }
 .tableFilter .rowchik.overflow_hidden_none{
     position: sticky;

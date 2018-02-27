@@ -1,8 +1,12 @@
 <template lang="html">
 	<div class="">
+		<div class="add">
+			<router-link to='/dictionary'>back</router-link>
+		</div>
 
 		<div class="">
-			id is {{usid}}
+			<span v-if='usid'>id is {{usid}}</span>
+
 			 <!-- {{users}} -->
 			 <nuxt-link to="123">123</nuxt-link>
 		</div>
@@ -23,9 +27,6 @@
 
 			</div>
 			<input @click='buttonclick' type="button" value='edit' >
-			<div class="">
-				<input @click='search' type="button" name="" value="search">
-			</div>
 			<!-- <iframe id="ytplayer" type="text/html" width="720" height="405"
 src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&controls=0&loop=1&rel=0&showinfo=0"
 frameborder="0" allowfullscreen></iframe> -->
@@ -42,11 +43,22 @@ export default {
 	components:{
 		// tableindex,
 	},
-	async asyncData({params, env}){
-		return{
-			'usid':params.id,
+
+	async asyncData({params, env, redirect}){
+		var obj={
+			'edit':params.edit,
+			'usid':false,
 			'users':env.users,
 		}
+		if(params.id){
+			console.log(params.id);
+			obj.usid=params.id
+			if(params.edit!='edit'){
+				return redirect('/dictionary/')
+			}
+
+		}
+		return obj
 	},
 	methods:{
 		buttonclick(){
@@ -60,6 +72,9 @@ export default {
 				'ukrainian':ukrainian,
 
 			}
+			var link = '/admin/word/'+this.edit+'/'+ this.usid
+			console.log(link);
+			return
 			$.ajax({
 				url:'/admin/word/add',
 				data:post_data,

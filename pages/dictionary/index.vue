@@ -1,5 +1,9 @@
 <template lang="html">
 	<div class="">
+		<div class="add">
+			<router-link to='/dictionary/add'>add new</router-link>
+		</div>
+
 		<input @click='search' type="button" name="" value="dictionary">
 		<tableindex v-if='table.ansver' :options='table'></tableindex>
 	</div>
@@ -52,7 +56,7 @@ export default {
 		}
 	},
 	mounted(){
-		this.search()
+		// this.search()
 	}
 }
 </script>

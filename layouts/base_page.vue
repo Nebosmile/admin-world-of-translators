@@ -98,6 +98,18 @@ ul{
         }
     }
 }
+.add{
+    display: inline-block;
+    margin-right: 5px;
+    border: 1px solid;
+    border-radius: 2px;
+    a{
+        display: inline-block;
+        color: #000;
+        text-decoration: none;
+        padding: 1px;
+    }
+}
 .admin_wrap{
     padding-left: 20px;
     margin-top: 51px;
