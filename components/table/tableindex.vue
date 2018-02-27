@@ -41,7 +41,7 @@
 
         </div>
         <div class="hidewrapitem">
-            <table class="hideitem">
+            <table class="hideitem base_table">
                 <thead>
                     <tr>
                         <th v-for='(items,index) in options.initvalue'
@@ -52,7 +52,7 @@
                 </thead>
                 <tbody>
                     <tr v-for='(item, index) in options.ansver '
-                        v-on:click='((options.clickevent_tr!=undefined)? checkevent(elem.clickevent, item): null)'
+                        v-on:click='((options.clickevent_tr!=undefined)? checkevent(options.clickevent_tr, item): null)'
                         :class='{click_tr:options.clickevent_tr}'
                     >
                         <td v-for='(elem, index2) in options.initvalue'
@@ -61,6 +61,10 @@
                         >
                             <p v-on:click='((elem.clickevent!=undefined)? checkevent(elem.clickevent, item): null)'
                             >{{setvalue(item[elem.value], elem.value, index + 1,elem)}}</p>
+                            <div @click='checkevent(elem.button, item)'
+                                v-if='elem.button' class="td_button">
+                                {{elem.button.name}}
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -161,10 +165,10 @@ export default {
         },
         check_parent(e){
             var elem = e.target
-            console.log(elem);
+
 
             var result=this.$refs.filter_block.contains(elem);
-            console.log();
+
             if(result==false && !elem.classList.contains('filterButton')){
                 this.hideis=true;
             }
@@ -277,6 +281,13 @@ export default {
 </script>
 
 <style lang="scss">
+.base_table{
+    td{
+        p{
+            margin: 0;
+        }
+    }
+}
 .hidewrapitem{
     overflow: hidden;
 }
@@ -394,6 +405,13 @@ export default {
 }
 .filterButton:hover {
     background-image: url('~@/static/img/gumbwhite.png');
+}
+.td_button{
+    padding: 0 2px;;
+    border: solid 1px;
+    border-radius: 2px;
+    display: inline-block;
+    line-height: 1;
 }
 
 </style>

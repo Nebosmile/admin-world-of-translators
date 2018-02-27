@@ -5,7 +5,7 @@
 		</div>
 
 		<input @click='search' type="button" name="" value="dictionary">
-		<tableindex v-if='table.ansver' :options='table'></tableindex>
+		<tableindex @edit='edit_redirect' v-if='table.ansver' :options='table'></tableindex>
 	</div>
 </template>
 
@@ -27,14 +27,18 @@ export default {
 				set_value:'',
 				ansver:'',
 				count:'',
-				clickevent_tr: {
-					callevent: 'add_user_to_list',
-				},
+				// clickevent_tr: {
+				// 	callevent: 'add_user_to_list',
+				// },
 				initvalue:[
 					{value: 'counter', name:'Counter',status:'checked',default:'1'},
 					{value:'_id', name:'ID',status:'checked',default:'1',
-						clickevent:{
-							callevent:'getrounds',
+						// clickevent:{
+						// 	callevent:'getrounds',
+						// },
+						button:{
+							name:'edit',
+							callevent:'edit',
 						}
 					},
 					{value: 'english', name:'English',status:'checked',default:'1'},
@@ -53,6 +57,10 @@ export default {
 					this.table.ansver = data.result;
 				}
 			})
+		},
+		edit_redirect(obj){
+			this.$router.push('/dictionary/edit/'+obj._id)
+			console.log(obj);
 		}
 	},
 	mounted(){
