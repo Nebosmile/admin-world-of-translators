@@ -14,19 +14,22 @@
 			<div class="inputblock">
 				<label for="">
 					English
-					<input type="text" name="english" value="" ref='word'>
+					<input type="text" name="english" v-model="inputs.english" ref='word'>
+					<!-- {{inputs.english}} -->
 				</label>
 				<label for="">
 					Russian
-					<input type="text" name="russian" value="" ref='russian'>
+					<input type="text" name="russian" v-model="inputs.russian" ref='russian'>
+					<!-- {{inputs.russian}} -->
 				</label>
 				<label for="">
 					Ukrainian
-					<input type="text" name="ukrainian" value="" ref='ukrainian'>
+					<input type="text" name="ukrainian" v-model="inputs.ukrainian" ref='ukrainian' >
+					<!-- {{inputs.ukrainian}} -->
 				</label>
 
 			</div>
-			<input @click='buttonclick' type="button" value='edit' >
+			<input @click='buttonclick' type="button" :value='edit' >
 			<!-- <iframe id="ytplayer" type="text/html" width="720" height="405"
 src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&controls=0&loop=1&rel=0&showinfo=0"
 frameborder="0" allowfullscreen></iframe> -->
@@ -60,32 +63,75 @@ export default {
 		}
 		return obj
 	},
+	data(){
+		return{
+			inputs:{
+				english:'',
+				russian:'',
+				ukrainian:'',
+			}
+		}
+	},
+
 	methods:{
+		setmodel(v_target,event){
+			v_target=event.target.value;
+		},
 		buttonclick(){
-			console.log('button cliked');
-			var english = this.$refs.word.value;
-			var russian = this.$refs.word.value;
-			var ukrainian = this.$refs.word.value;
+
 			var post_data={
-				'english':english,
-				'russian':russian,
-				'ukrainian':ukrainian,
+				'english':this.inputs.english,
+				'russian':this.inputs.russian,
+				'ukrainian':this.inputs.ukrainian,
 
 			}
-			var link = '/admin/word/'+this.edit+'/'+ this.usid
+			var id=''
+			if(this.usid){
+				id=this.usid
+			}
+			var link = '/admin/word/'+this.edit+'/'+ id;
 			console.log(link);
-			return
+			// return
 			$.ajax({
-				url:'/admin/word/add',
+				url:link,
 				data:post_data,
 				type:'POST',
 				dataType:'json',
-				success:function(data) {
+				success:(data)=> {
 					console.log(data);
 				}
 			})
 		},
+		set_form_value(obj){
+			for(var elem in this.inputs){
+				// if(obj[elem]){
+					this.inputs[elem]=obj[elem];
+				// }
 
+			}
+		},
+		findOne(){
+			var post_data={
+				'_id':this.usid
+			};
+			console.log(post_data);
+			$.ajax({
+				url:'/admin/word/search',
+				data:post_data,
+				type:'POST',
+				dataType:'json',
+				success:(data)=> {
+					console.log(data);
+					this.set_form_value(data.result);
+				}
+			})
+		},
+
+	},
+	mounted(){
+		if(this.usid){
+			this.findOne()
+		}
 	}
 }
 </script>

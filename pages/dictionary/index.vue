@@ -42,6 +42,8 @@ export default {
 						}
 					},
 					{value: 'english', name:'English',status:'checked',default:'1'},
+					{value: 'russian', name:'Russian',status:'checked',default:'1'},
+					{value: 'ukrainian', name:'Ukrainian',status:'checked',default:'1'},
 				]
 			},
 		}

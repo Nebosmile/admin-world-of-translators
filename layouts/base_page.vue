@@ -37,6 +37,32 @@ export default {
 };
 </script>
 <style lang='scss'>
+$theme_color:#0868c5;
+$theme_color_hd:darken($theme_color, 10%);
+$theme_color_hl:lighten($theme_color, 10%);
+
+
+body{
+    font-family: sans-serif;
+}
+
+.theme_color{
+    background-color: $theme_color;
+}
+.theme_button{
+    background-color: $theme_color;
+    color: #fff;
+    cursor: pointer;
+    padding: 1px 4px;;
+    border: solid 1px;
+    border-radius: 4px;
+    display: inline-block;
+    line-height: 1;
+    &:hover{
+        background-color: $theme_color_hl;
+    }
+}
+
 body{
     margin: 0;
     padding:0;
@@ -51,7 +77,7 @@ ul{
     left:0;
     width: 100%;
     height: 50px;
-    background-color: rgba(250, 250, 250, 0.5);
+    background-color: rgba(250, 250, 250, 0.9);
     border-bottom: solid 1px #000;
 }
 .menu_section{

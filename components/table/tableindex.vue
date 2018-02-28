@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="rowchik overflow_hidden_none" ref='rowchik'>
+        <div class="rowchik theme_color overflow_hidden_none" ref='rowchik'>
             <p class="left">{{options.tableoption.name}}</p>
 
             <div class="hideButton right" v-on:click='check($refs.hidwrap)'></div>
@@ -62,7 +62,7 @@
                             <p v-on:click='((elem.clickevent!=undefined)? checkevent(elem.clickevent, item): null)'
                             >{{setvalue(item[elem.value], elem.value, index + 1,elem)}}</p>
                             <div @click='checkevent(elem.button, item)'
-                                v-if='elem.button' class="td_button">
+                                v-if='elem.button' class="td_button theme_button">
                                 {{elem.button.name}}
                             </div>
                         </td>
@@ -315,6 +315,10 @@ export default {
     right: 0;
     border: 10px solid transparent;
     border-top: 10px solid #a1a1a1;
+
+}
+.hideButton:hover:before{
+    border-top: 10px solid #fff;
 }
 .hideButton.see:before {
         top: 0;
@@ -382,7 +386,7 @@ export default {
     position: relative;
     z-index: 1;
     overflow: hidden;
-    background-color: #3a3a3a;
+    // background-color: #3a3a3a;
 
     padding-right: 10px;
     p{
@@ -407,11 +411,7 @@ export default {
     background-image: url('~@/static/img/gumbwhite.png');
 }
 .td_button{
-    padding: 0 2px;;
-    border: solid 1px;
-    border-radius: 2px;
-    display: inline-block;
-    line-height: 1;
+    font-size: 14px;
 }
 
 </style>
