@@ -1,4 +1,4 @@
-const wordShema = require('../schemas/word');
+const BaseSchema = require('../schemas/game/characters.js');
 const fs = require('fs');
 
 // console.log(db);
@@ -6,21 +6,16 @@ const fs = require('fs');
 module.exports={
     async save(ctx){
 		// console.log('save');
-		var word=new wordShema({
-			english:ctx.request.body.english,
-			russian:ctx.request.body.russian,
-			ukrainian:ctx.request.body.ukrainian,
-		})
+		var target_schema=new BaseSchema(ctx.request.body)
 
 		try{
-			console.log('dfgh');
-			var word_save=  await word.save(function (err, result) {
+			var target_save=  await target_schema.save(function (err, result) {
 
             })
 			ctx.type ='json';
 			ctx.body ={
                 status:200,
-				result:word_save,
+				result:target_save,
 			}
 
 		}catch(err){
@@ -37,20 +32,20 @@ module.exports={
         //     ukrainian:ctx.request.body.ukrainian,
         // })
         // var obj={}
-        var word =  await wordShema.findById(ctx.params.id);
-        if(!word){
+        var target_schema =  await BaseSchema.findById(ctx.params.id);
+        if(!target_schema){
             ctx.throw(404, 'User not found')
         }
 
-        const updWordr= await word.set(ctx.request.body).save();
+        const up_shema= await target_schema.set(ctx.request.body).save();
 
-        ctx.body = updWordr;
+        ctx.body = up_shema;
 
 
 	},
     async remove(ctx){
         var obj={};
-        obj.result = await wordShema.remove({'_id':ctx.params.id});
+        obj.result = await BaseSchema.remove({'_id':ctx.params.id});
         obj.status='200';
         ctx.type='json';
         ctx.body=obj;
@@ -62,9 +57,9 @@ module.exports={
         var obj={}
 
         if(ctx.request.body._id){
-            obj.result = await wordShema.findOne({'_id':ctx.request.body._id});
+            obj.result = await BaseSchema.findOne({'_id':ctx.request.body._id});
         }else{
-            obj.result =    await wordShema.find({});
+            obj.result =    await BaseSchema.find({});
         }
         if(!obj.result){
             obj.status='404';

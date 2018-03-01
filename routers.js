@@ -7,6 +7,7 @@ const serve = require('koa-static');
 
 const base_controller = require('./controlers/index');
 const word_controller = require('./controlers/words_control');
+const character_controller = require('./controlers/character_control');
 
 
 
@@ -27,7 +28,13 @@ router.post('/',base_controller.post_index)
 
 router.post('/word/add',word_controller.save);
 router.post('/word/edit/:id',word_controller.edit);
-router.post('/word/search',word_controller.search_item)
+router.post('/word/delete/:id',word_controller.remove);
+router.post('/word/search',word_controller.search_item);
+
+router.post('/characters/add',character_controller.save);
+router.post('/characters/edit/:id',character_controller.edit);
+router.post('/characters/delete/:id',character_controller.remove);
+router.post('/characters/search',character_controller.search_item)
 
 
 

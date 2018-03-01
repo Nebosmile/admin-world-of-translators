@@ -282,6 +282,8 @@ export default {
 
 <style lang="scss">
 .base_table{
+    width: 100%;
+
     td{
         p{
             margin: 0;
@@ -289,11 +291,12 @@ export default {
     }
 }
 .hidewrapitem{
-    overflow: hidden;
+    // overflow: hidden;
 }
 .hidewrap {
     margin-bottom: 20px;
-    overflow: hidden;
+    width: 100%;
+    // overflow: hidden;
 
 }
 .hideitem{
@@ -386,6 +389,7 @@ export default {
     position: relative;
     z-index: 1;
     overflow: hidden;
+    min-width: 100%;
     // background-color: #3a3a3a;
 
     padding-right: 10px;

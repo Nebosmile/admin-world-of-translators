@@ -13,7 +13,7 @@
 
 
         <div class="admin_wrap open" ref ='admin_wrap'>
-            <h1>Добро пожаловать на главню страницу</h1>
+            <!-- <h1>Добро пожаловать на главню страницу</h1> -->
             <nuxt/>
         </div>
 
@@ -45,7 +45,11 @@ $theme_color_hl:lighten($theme_color, 10%);
 body{
     font-family: sans-serif;
 }
-
+.main_wrap{
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
+}
 .theme_color{
     background-color: $theme_color;
 }
@@ -137,8 +141,9 @@ ul{
     }
 }
 .admin_wrap{
+    width: 100%;
     padding-left: 20px;
-    margin-top: 51px;
+    margin-top: 71px;
     transition: margin-left 0.3s linear;
 
     &.open{
@@ -153,5 +158,15 @@ section{
 }
 .left{
     float: left;
+}
+.inputblock{
+    display:flex;
+    flex-wrap: wrap;
+
+    label{
+        width: 33%;
+        min-width: 300px;
+        text-align: right;
+    }
 }
 </style>

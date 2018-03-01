@@ -1,7 +1,7 @@
 <template lang="html">
 	<div class="">
 		<div class="add">
-			<router-link to='/dictionary'>back</router-link>
+			<router-link to='/characters'>back</router-link>
 		</div>
 
 		<div class="">
@@ -13,20 +13,40 @@
 		<form class="" method="post">
 			<div class="inputblock">
 				<label for="">
-					English
-					<input type="text" name="english" v-model="inputs.english" ref='word'>
-					<!-- {{inputs.english}} -->
+					name
+					<input type="text" name="name" v-model="inputs.name">
 				</label>
 				<label for="">
-					Russian
-					<input type="text" name="russian" v-model="inputs.russian" ref='russian'>
-					<!-- {{inputs.russian}} -->
+					guild
+					<input type="text" name="guild" v-model="inputs.guild" >
 				</label>
 				<label for="">
-					Ukrainian
-					<input type="text" name="ukrainian" v-model="inputs.ukrainian" ref='ukrainian' >
-					<!-- {{inputs.ukrainian}} -->
+					base_strength
+					<input type="number" name="base_strength" v-model="inputs.base_strength">
 				</label>
+				<label for="">
+					base_stamina
+					<input type="number" name="base_stamina" v-model="inputs.base_stamina" >
+				</label>
+				<label for="">
+					base_agility
+					<input type="number" name="base_agility" v-model="inputs.base_agility" >
+				</label>
+
+				<label for="">
+					base_critical
+					<input type="number" name="base_critical" v-model="inputs.base_critical">
+				</label>
+
+				<label for="">
+					base_blockchance
+					<input type="number" name="base_blockchance" v-model="inputs.base_blockchance">
+				</label>
+				<label for="">
+					armor_coefficient
+					<input type="number" name="armor_coefficient" v-model="inputs.armor_coefficient">
+				</label>
+
 
 			</div>
 			<input @click='buttonclick' type="button" :value='edit' >
@@ -52,13 +72,12 @@ export default {
 		var obj={
 			'edit':params.edit,
 			'itemid':false,
-			'users':env.users,
 		}
 		if(params.id){
 			console.log(params.id);
 			obj.itemid=params.id
 			if(params.edit!='edit'){
-				return redirect('/dictionary/')
+				return redirect('/characters/')
 			}
 
 		}
@@ -67,9 +86,14 @@ export default {
 	data(){
 		return{
 			inputs:{
-				english:'',
-				russian:'',
-				ukrainian:'',
+				name:'',
+				guild:'',
+				base_strength:'',
+				base_stamina:'',
+				base_agility:'',
+				base_critical:'',
+				base_blockchance:'',
+				armor_coefficient:'',
 			}
 		}
 	},
@@ -81,16 +105,20 @@ export default {
 		buttonclick(){
 
 			var post_data={
-				'english':this.inputs.english,
-				'russian':this.inputs.russian,
-				'ukrainian':this.inputs.ukrainian,
-
+				'name':this.inputs.name,
+				'guild':this.inputs.guild,
+				'base_strength':this.inputs.base_strength,
+				'base_stamina':this.inputs.base_stamina,
+				'base_agility':this.inputs.base_agility,
+				'base_critical':this.inputs.base_critical,
+				'base_blockchance':this.inputs.base_blockchance,
+				'armor_coefficient':this.inputs.armor_coefficient,
 			}
 			var id=''
 			if(this.itemid){
 				id=this.itemid
 			}
-			var link = '/admin/word/'+this.edit+'/'+ id;
+			var link = '/admin/characters/'+this.edit+'/'+ id;
 			console.log(link);
 			// return
 			$.ajax({
@@ -117,7 +145,7 @@ export default {
 			};
 			console.log(post_data);
 			$.ajax({
-				url:'/admin/word/search',
+				url:'/admin/characters/search',
 				data:post_data,
 				type:'POST',
 				dataType:'json',
@@ -129,7 +157,7 @@ export default {
 		},
 		delete_item(){
 			var id=''
-			var link = '/admin/word/delete/'+ this.itemid;
+			var link = '/admin/characters/delete/'+ this.itemid;
 			$.ajax({
 				url:link,
 				type:'POST',
@@ -137,7 +165,7 @@ export default {
 				success:(data)=> {
 					console.log(data);
 					if(data.status==200){
-						this.$router.push('/dictionary')
+						this.$router.push('/characters')
 					}
 				}
 			})

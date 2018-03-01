@@ -18,12 +18,16 @@ export default {
                     link:'/dictionary',
                     text:'dictionarytext',
                     childs:{
-                        
+
                     }
                 },
                 {
-                    link:'/dictionary2',
-                    text:'dictionarytext2'
+                    link:'/characters',
+                    text:'characters'
+                },
+                {
+                    link:'/game',
+                    text:'game'
                 }
             ]
 		}

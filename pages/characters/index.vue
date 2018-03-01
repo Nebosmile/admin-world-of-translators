@@ -1,10 +1,10 @@
 <template lang="html">
 	<div class="">
 		<div class="add">
-			<router-link to='/dictionary/add'>add new</router-link>
+			<router-link to='/characters/add'>add new</router-link>
 		</div>
 
-		<input @click='search' type="button" name="" value="dictionary">
+		<input @click='search' type="button" name="" value="characters">
 		<tableindex @edit='edit_redirect' v-if='table.ansver' :options='table'></tableindex>
 	</div>
 </template>
@@ -41,9 +41,14 @@ export default {
 							callevent:'edit',
 						}
 					},
-					{value: 'english', name:'English',status:'checked',default:'1'},
-					{value: 'russian', name:'Russian',status:'checked',default:'1'},
-					{value: 'ukrainian', name:'Ukrainian',status:'checked',default:'1'},
+					{value: 'name', name:'name',status:'checked',default:'1'},
+					{value: 'guild', name:'guild',status:'checked',default:'1'},
+					{value: 'base_strength', name:'base_strength',status:'checked',default:'1'},
+					{value: 'base_stamina', name:'base_stamina',status:'checked',default:'1'},
+					{value: 'base_agility', name:'base_agility',status:'checked',default:'1'},
+					{value: 'base_critical', name:'base_critical',status:'checked',default:'1'},
+					{value: 'base_blockchance', name:'base_blockchance',status:'checked',default:'1'},
+					{value: 'armor_coefficient', name:'armor_coefficient',status:'checked',default:'1'},
 				]
 			},
 		}
@@ -51,7 +56,7 @@ export default {
 	methods:{
 		search(){
 			$.ajax({
-				url:'/admin/word/search',
+				url:'/admin/characters/search',
 				type:'POST',
 				dataType:'json',
 				success:(data)=> {
@@ -61,7 +66,7 @@ export default {
 			})
 		},
 		edit_redirect(obj){
-			this.$router.push('/dictionary/edit/'+obj._id)
+			this.$router.push('/characters/edit/'+obj._id)
 			console.log(obj);
 		}
 	},
