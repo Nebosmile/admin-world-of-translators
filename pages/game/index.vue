@@ -9,26 +9,34 @@
 				{{item.name}}
 			</div>
             <input type="button" @click='back' name="" value="back">
-			<div v-if='battle' class="battle">
-				<div class="battle_info">
-					<div class="life">
-						<div class="red_life">
 
-						</div>
-					</div>
-					<p>{{user_char.name}}</p>
-                    <input type="button" @click='atack(user_char,oponent)' name="" value="atack">
-				</div>
-				<div class="battle_info">
-					<div class="life">
-						<div class="red_life">
+            <div class="" v-if='battle' >
+                <input @click='start' type="button" name="" value="start">
+                <div class="battle">
+                    <div class="battle_info">
+                        <div class="life">
+                            <div class="red_life">
 
-						</div>
-					</div>
-					<p>{{oponent.name}}</p>
-                    <input type="button" name="" value="atack">
-				</div>
-			</div>
+                            </div>
+                            <p>{{user_char.activ_life}}</p>
+
+                        </div>
+                        <p>{{user_char.name}}</p>
+                        <input v-if='active_battle' type="button" @click='hit(user_char,oponent)' name="" value="atack">
+                    </div>
+                    <div class="battle_info">
+                        <div class="life">
+                            <div class="red_life">
+
+                            </div>
+                            <p>{{oponent.activ_life}}</p>
+                        </div>
+                        <p>{{oponent.name}}</p>
+                        <!-- <input type="button" name="" value="atack"> -->
+                    </div>
+                </div>
+            </div>
+
 		</div>
   	</div>
 </template>
@@ -42,29 +50,67 @@ export default {
 	data(){
 		return{
 			character_list:'',
+            creature_list:'',
 			user_char:'',
 			oponent:'',
 			battle:false,
+            active_battle:false,
 		}
 	},
 	methods:{
-        atack(a,b){
-            console.log(a);
-            console.log(b);
+        start(){
+            this.active_battle=true;
+            this.creature_atack(this.oponent,this.user_char);
         },
-		life(obj){
+        hit(source, target){
+            if(target.activ_life<=0 || source.base_strength<=0){
+                this.active_battle=false;
+                return
+            }
+            target.activ_life = target.activ_life - source.base_strength;
+            console.log(this.user_char.activ_life);
 
-		},
+        },
+        creature_atack(oponent,player){
+            setTimeout(()=>{
+                this.hit(oponent,player);
+                if(player.activ_life<=0){
+                    this.active_battle=false;
+                    return
+                }
+                this.creature_atack(oponent,player);
+            },oponent.atack_speed*1000)
+
+        },
         back(){
             this.battle=false;
         },
-		init_battle(obj){
-			this.character_list.forEach((item)=>{
-				item.activ_life=item.base_stamina
-			})
-			this.user_char = obj;
-			var rand = this.randomInteger(0, this.character_list.length-1)
-			this.oponent=this.character_list[rand];
+        get_creature_list(){
+            return $.ajax({
+                url:'/admin/creature/search',
+                type:'POST',
+                dataType:'json',
+                // success:(data)=> {
+                //     console.log(data.result);
+                //     if(data.status='200'){
+                //         this.creature_list=data.result
+                //     }
+                // }
+            })
+        },
+		async init_battle(obj){
+            var get_creature = await this.get_creature_list();
+            this.creature_list=get_creature.result;
+            var rand = this.randomInteger(0, this.creature_list.length-1)
+
+            var op_obj=this.creature_list[rand];
+            op_obj.activ_life=op_obj.base_stamina;
+            this.oponent=JSON.parse(JSON.stringify(op_obj))
+            obj.activ_life=obj.base_stamina
+			this.user_char =JSON.parse(JSON.stringify(obj));
+
+
+
             this.battle=true;
 		},
 		randomInteger(min, max) {

@@ -75,6 +75,14 @@ ul{
     padding: 0;
     margin: 0;
 }
+table{
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+td,th{
+    border: solid 1px ;
+
+}
 .head_section{
     position: fixed;
     top:0;

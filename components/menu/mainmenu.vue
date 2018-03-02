@@ -26,6 +26,10 @@ export default {
                     text:'characters'
                 },
                 {
+                    link:'/creature',
+                    text:'creature'
+                },
+                {
                     link:'/game',
                     text:'game'
                 }
