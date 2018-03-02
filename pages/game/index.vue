@@ -18,7 +18,7 @@
                 <div class="battle">
                     <div class="battle_info">
                         <div class="life">
-                            <div class="red_life">
+                            <div :style='{width: life_line(user_char)}' class="red_life">
 
                             </div>
                             <p>{{user_char.activ_life}}</p>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="battle_info">
                         <div class="life">
-                            <div class="red_life">
+                            <div :style='{width: life_line(oponent)}' class="red_life">
 
                             </div>
                             <p>{{oponent.activ_life}}</p>
@@ -62,6 +62,9 @@ export default {
 		}
 	},
 	methods:{
+        life_line(target){
+            return (target.activ_life/ target.base_stamina)*100 +'%';
+        },
         start(){
             this.battle_result=''
             this.active_battle=true;
@@ -174,6 +177,9 @@ export default {
             }
 		}
 	}
+}
+.red_life{
+    transition: width 0.3s linear;
 }
 .result{
     text-align: center;
