@@ -12,6 +12,9 @@
 
             <div class="" v-if='battle' >
                 <input @click='start' type="button" name="" value="start">
+                <div class="result">
+                    {{battle_result}}
+                </div>
                 <div class="battle">
                     <div class="battle_info">
                         <div class="life">
@@ -55,28 +58,47 @@ export default {
 			oponent:'',
 			battle:false,
             active_battle:false,
+            battle_result:'',
 		}
 	},
 	methods:{
         start(){
+            this.battle_result=''
             this.active_battle=true;
             this.creature_atack(this.oponent,this.user_char);
         },
         hit(source, target){
-            if(target.activ_life<=0 || source.base_strength<=0){
+            if(this.check_life()){
                 this.active_battle=false;
+                this.result();
                 return
             }
             target.activ_life = target.activ_life - source.base_strength;
             console.log(this.user_char.activ_life);
 
         },
+        check_life(){
+                if(this.user_char.activ_life<=0 || this.oponent.activ_life<=0){
+                    return true
+                }
+                return false
+        },
+        result(){
+            if(this.user_char.activ_life>this.oponent.activ_life){
+                this.battle_result=`${this.user_char.name} win`
+            }else if(this.user_char.activ_life<this.oponent.activ_life){
+                this.battle_result=`${this.oponent.name} win`
+            }else{
+                this.battle_result='dead heat'
+            }
+        },
         creature_atack(oponent,player){
             setTimeout(()=>{
                 this.hit(oponent,player);
-                if(player.activ_life<=0){
+                if(this.check_life()){
                     this.active_battle=false;
-                    return
+                    this.result();
+                    return;
                 }
                 this.creature_atack(oponent,player);
             },oponent.atack_speed*1000)
@@ -152,6 +174,10 @@ export default {
             }
 		}
 	}
+}
+.result{
+    text-align: center;
+    font-size: 20px;
 }
 .char_list{
 	width: 100%;
