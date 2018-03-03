@@ -25,7 +25,7 @@
 
                         </div>
                         <p>{{user_char.name}}</p>
-                        <input v-if='active_battle' type="button" @click='hit(user_char,oponent)' name="" value="atack">
+                        <input v-if='active_battle' type="button" @click='hit(user_char,oponent,get_random_word())' name="" value="atack">
                     </div>
                     <div class="battle_info">
                         <div class="life">
@@ -70,10 +70,11 @@ export default {
             this.active_battle=true;
             this.creature_atack(this.oponent,this.user_char);
         },
-        hit(source, target){
+        hit(source, target,callback){
             if(this.check_life()){
                 this.active_battle=false;
                 this.result();
+                callback()
                 return
             }
             target.activ_life = target.activ_life - source.base_strength;
@@ -156,6 +157,19 @@ export default {
 				}
 			})
 		},
+        get_random_word(){
+            $.ajax({
+                url:'/admin/word/get_random_word',
+                type:'POST',
+                dataType:'json',
+                success:(data)=> {
+                    console.log(data);
+                    // if(data.status='200'){
+                    //     this.character_list=data.result
+                    // }
+                }
+            })
+        }
 	},
 	mounted(){
 		this.search()

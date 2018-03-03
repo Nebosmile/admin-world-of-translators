@@ -31,11 +31,13 @@ router.post('/word/add',word_controller.save);
 router.post('/word/edit/:id',word_controller.edit);
 router.post('/word/delete/:id',word_controller.remove);
 router.post('/word/search',word_controller.search_item);
+router.post('/word/get_random_word',word_controller.get_random_word);
 
 router.post('/characters/add',character_controller.save);
 router.post('/characters/edit/:id',character_controller.edit);
 router.post('/characters/delete/:id',character_controller.remove);
 router.post('/characters/search',character_controller.search_item);
+
 
 router.post('/creature/add',creature_controller.save);
 router.post('/creature/edit/:id',creature_controller.edit);

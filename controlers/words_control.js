@@ -1,8 +1,13 @@
 const wordShema = require('../schemas/word');
 const fs = require('fs');
 
-// console.log(db);
+function 	randomInteger(min, max) {
+    var rand = min - 0.5 + Math.random() * (max - min + 1)
+	rand = Math.round(rand);
+	return rand;
+}
 
+// console.log(db);
 module.exports={
     async save(ctx){
 		// console.log('save');
@@ -78,7 +83,39 @@ module.exports={
 
 
 	},
-	async delete_item(ctx){
-
-	},
+	// async get_random_word(ctx){
+    //     var obj={};
+    //     var last_word=ctx.request.body._id;
+    //     var newword;
+    //     var result =  await wordShema.find({});
+    //     console.log(result);
+    //
+    //     function check_last_word(lastword) {
+    //         var rand;
+    //         if(result.length>1){
+    //             rand = this.randomInteger(0, result.length-1);
+    //             if(result[rand]._id!=lastword._id){
+    //                 obj.result=result[rand]
+    //             }else{
+    //                  check_last_word(lastword)
+    //             }
+    //         }  else{
+    //             obj.result=result
+    //         }
+    //     }
+    //     console.log(obj.result);
+    //     ctx.type='json';
+    //     ctx.body=obj
+	// },
+    async get_random_word(ctx){
+            var obj={};
+            var last_word=ctx.request.body._id;
+            var newword;
+            var result =  await wordShema.find({});
+            var rand = randomInteger(0, result.length-1);
+            obj.result={};
+            obj.result=result[rand]);
+            ctx.type='json';
+            ctx.body=obj
+    }
 }
