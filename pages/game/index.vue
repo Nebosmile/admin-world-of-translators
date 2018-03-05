@@ -25,7 +25,7 @@
 
                         </div>
                         <p>{{user_char.name}}</p>
-                        <input v-if='active_battle' type="button" @click='hit(user_char,oponent,get_random_word())' name="" value="atack">
+                        <input v-if='active_battle' type="button" @click='user_atack' name="" value="atack">
                     </div>
                     <div class="battle_info">
                         <div class="life">
@@ -45,6 +45,13 @@
 </template>
 
 <script>
+
+import Battle from '@/components/battle/battle.js'
+
+var battle = new Battle({
+    translate_lang:'english'
+})
+console.log(battle);
 export default {
 	layout:'base_page',
 	components:{
@@ -59,15 +66,20 @@ export default {
 			battle:false,
             active_battle:false,
             battle_result:'',
+            active_word:'',
+            user_ansver:'',
 		}
 	},
 	methods:{
         life_line(target){
             return (target.activ_life/ target.base_stamina)*100 +'%';
         },
-        start(){
+        async start(){
             this.battle_result=''
             this.active_battle=true;
+            var answer= await this.get_random_word();
+            this.active_word=answer.result
+            console.log(this.active_word);
             this.creature_atack(this.oponent,this.user_char);
         },
         hit(source, target,callback){
@@ -157,18 +169,17 @@ export default {
 				}
 			})
 		},
+        async user_atack(){
+            var answer= await this.get_random_word();
+            this.active_word=answer.result
+            this.hit(this.user_char,this.oponent);
+        },
         get_random_word(){
-            $.ajax({
-                url:'/admin/word/get_random_word',
-                type:'POST',
-                dataType:'json',
-                success:(data)=> {
-                    console.log(data);
-                    // if(data.status='200'){
-                    //     this.character_list=data.result
-                    // }
-                }
-            })
+            return $.ajax({
+                    url:'/admin/word/get_random_word',
+                    type:'POST',
+                    dataType:'json',
+                })
         }
 	},
 	mounted(){

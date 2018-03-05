@@ -114,7 +114,7 @@ module.exports={
             var result =  await wordShema.find({});
             var rand = randomInteger(0, result.length-1);
             obj.result={};
-            obj.result=result[rand]);
+            obj.result=result[rand];
             ctx.type='json';
             ctx.body=obj
     }
