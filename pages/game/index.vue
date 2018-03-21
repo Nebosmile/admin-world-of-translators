@@ -23,6 +23,10 @@
                             </div>
                             <p>{{user_char.activ_life}}</p>
 
+                            <div class="">
+                                <battle v-if='word_obj.active_word' :options='word_obj'></battle>
+                            </div>
+
                         </div>
                         <p>{{user_char.name}}</p>
                         <input v-if='active_battle' type="button" @click='user_atack' name="" value="atack">
@@ -46,16 +50,16 @@
 
 <script>
 
-import Battle from '@/components/battle/battle.js'
+import battle from '@/components/battle/battle.vue'
 
-var battle = new Battle({
-    translate_lang:'english'
-})
+// var battle = new Battle({
+//     translate_lang:'english'
+// })
 console.log(battle);
 export default {
 	layout:'base_page',
 	components:{
-		// tableindex,
+		battle
 	},
 	data(){
 		return{
@@ -66,8 +70,14 @@ export default {
 			battle:false,
             active_battle:false,
             battle_result:'',
-            active_word:'',
             user_ansver:'',
+
+            word_obj:{
+                active_word:'',
+                user_lang:'russian',
+                translate_lang:'english',
+
+            }
 		}
 	},
 	methods:{
@@ -76,11 +86,12 @@ export default {
         },
         async start(){
             this.battle_result=''
-            this.active_battle=true;
             var answer= await this.get_random_word();
-            this.active_word=answer.result
-            console.log(this.active_word);
-            this.creature_atack(this.oponent,this.user_char);
+
+            this.word_obj.active_word=answer.result;
+            this.active_battle=true;
+            console.log(this.word_obj);
+            // this.creature_atack(this.oponent,this.user_char);
         },
         hit(source, target,callback){
             if(this.check_life()){
@@ -109,6 +120,7 @@ export default {
             }
         },
         creature_atack(oponent,player){
+            console.log('creature_atack');
             setTimeout(()=>{
                 this.hit(oponent,player);
                 if(this.check_life()){
@@ -171,7 +183,7 @@ export default {
 		},
         async user_atack(){
             var answer= await this.get_random_word();
-            this.active_word=answer.result
+            this.word_obj.active_word=answer.result;
             this.hit(this.user_char,this.oponent);
         },
         get_random_word(){

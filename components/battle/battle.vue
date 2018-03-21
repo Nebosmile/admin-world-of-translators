@@ -13,7 +13,7 @@
 export default {
 	data(){
 		return{
-			word_obj:'',
+			word_obj:this.options.active_word,
 			user_lang:'',
 			translate_lang:'',
 			word_question:[],
@@ -53,6 +53,9 @@ export default {
 				return false;
 			}
 		}
+	},
+	mounted(){
+		console.log(this.options);
 	}
 }
 </script>

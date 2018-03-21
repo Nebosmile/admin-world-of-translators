@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="hidewrap" ref = 'hidwrap' >
+    <div class="hidewrap overflow_hidden_none" ref = 'hidwrap' >
         <div ref='filter_block' v-bind:class="{hide:hideis}" class='filterblock'>
             <div class="filterblockin" >
                 <form>
@@ -295,9 +295,8 @@ export default {
 }
 .hidewrap {
     margin-bottom: 20px;
+    overflow: hidden;
     width: 100%;
-    // overflow: hidden;
-
 }
 .hideitem{
     margin-bottom: 0;
