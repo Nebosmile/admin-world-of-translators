@@ -23,13 +23,12 @@
                             </div>
                             <p>{{user_char.activ_life}}</p>
 
-                            <div class="">
-                                <battle v-if='word_obj.active_word' :options='word_obj'></battle>
-                            </div>
-
                         </div>
                         <p>{{user_char.name}}</p>
-                        <input v-if='active_battle' type="button" @click='user_atack' name="" value="atack">
+                        <div class="">
+                            <battle @useratack='useratack' v-if='word_obj.active_word' :options='word_obj'></battle>
+                        </div>
+
                     </div>
                     <div class="battle_info">
                         <div class="life">
@@ -181,7 +180,7 @@ export default {
 				}
 			})
 		},
-        async user_atack(){
+        async useratack(){
             var answer= await this.get_random_word();
             this.word_obj.active_word=answer.result;
             this.hit(this.user_char,this.oponent);
@@ -214,6 +213,9 @@ export default {
             }
 		}
 	}
+}
+.center{
+    text-align: center;
 }
 .red_life{
     transition: width 0.3s linear;
