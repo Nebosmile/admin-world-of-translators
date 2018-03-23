@@ -296,7 +296,6 @@ export default {
 .hidewrap {
     margin-bottom: 20px;
     overflow: hidden;
-    width: 100%;
 }
 .hideitem{
     margin-bottom: 0;
@@ -389,6 +388,7 @@ export default {
     z-index: 1;
     overflow: hidden;
     min-width: 100%;
+    box-sizing: border-box;
     // background-color: #3a3a3a;
 
     padding-right: 10px;

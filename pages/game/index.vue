@@ -26,7 +26,7 @@
                         </div>
                         <p>{{user_char.name}}</p>
                         <div class="">
-                            <battle @useratack='useratack' v-if='word_obj.active_word' :options='word_obj'></battle>
+                            <battle @useratack='useratack'></battle>
                         </div>
 
                     </div>
@@ -70,13 +70,6 @@ export default {
             active_battle:false,
             battle_result:'',
             user_ansver:'',
-
-            word_obj:{
-                active_word:'',
-                user_lang:'russian',
-                translate_lang:'english',
-
-            }
 		}
 	},
 	methods:{
@@ -85,11 +78,7 @@ export default {
         },
         async start(){
             this.battle_result=''
-            var answer= await this.get_random_word();
 
-            this.word_obj.active_word=answer.result;
-            this.active_battle=true;
-            console.log(this.word_obj);
             // this.creature_atack(this.oponent,this.user_char);
         },
         hit(source, target,callback){
@@ -181,17 +170,9 @@ export default {
 			})
 		},
         async useratack(){
-            var answer= await this.get_random_word();
-            this.word_obj.active_word=answer.result;
             this.hit(this.user_char,this.oponent);
         },
-        get_random_word(){
-            return $.ajax({
-                    url:'/admin/word/get_random_word',
-                    type:'POST',
-                    dataType:'json',
-                })
-        }
+
 	},
 	mounted(){
 		this.search()

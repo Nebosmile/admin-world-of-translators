@@ -149,9 +149,9 @@ td,th{
     }
 }
 .admin_wrap{
-    width: 100%;
     padding-left: 20px;
     margin-top: 71px;
+    margin-right: 20px;
     transition: margin-left 0.3s linear;
 
     &.open{

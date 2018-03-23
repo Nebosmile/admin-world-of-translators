@@ -1,5 +1,6 @@
 <template lang="html">
 	<div class="center">
+		<input @click='start' type="button" name="" value="start">
 		<div class="">
 			<h1>{{word_obj.active_word[word_obj.user_lang]}}</h1>
 
@@ -8,9 +9,9 @@
 			<span v-for='item in active_answer'>{{item}}</span>
 		</div>
 		<div class="">
-			<input @click='check_letter(item, index)' class="letter" v-for=' (item, index) in word_answer' type="button" :name="item" :value="item">
+			<div @click='check_letter(item, index)' class="letter" v-for=' (item, index) in word_answer' type="button" >{{item}}</div>
 		</div>
-		<input type="button" @click='useratack' name="" value="atack">
+		<!-- <input type="button" @click='useratack' name="" value="atack"> -->
 
 	</div>
 </template>
@@ -19,7 +20,6 @@
 export default {
 	data(){
 		return{
-			translate_lang:this.options.translate_lang,
 			word_question:[],
 			active_word:'',
 			word_answer:[],
@@ -104,16 +104,16 @@ export default {
 				})
 		},
 		async start(){
+			this.active_answer=[];
+			this.word_question=[];
+			this.counter=0;
 			var answer= await this.get_random_word();
-
 			this.word_obj.active_word=answer.result;
-			this.active_battle=true;
-			console.log(this.word_obj);
+			this.setwordArr();
 		}
 	},
 	mounted(){
-		this.useratack();
-		console.log(this.word_obj);
+
 	}
 }
 </script>
@@ -124,5 +124,7 @@ export default {
 	padding: 5px;
 	width: 30px;
 	margin-right: 5px;
+	background-color: rgb(223, 219, 222);
+	border:solid 1px #000;
 }
 </style>
