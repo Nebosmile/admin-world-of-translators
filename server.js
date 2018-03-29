@@ -78,5 +78,15 @@ app.use(async (ctx, next) => {
     })
 })
 
+const socket = require('./libs/socket.js');
+const server = app.listen(config.port);
+socket(server);
 
-app.listen(config.port)
+
+
+// var server = require('http').createServer(app.callback());
+// var io = require('socket.io')(server);
+// io.on('connection', function(){
+//     console.log('user conected');
+// });
+// server.listen(4000);

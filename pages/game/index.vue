@@ -11,7 +11,7 @@
             <input type="button" @click='back' name="" value="back">
 
             <div class="" v-if='battle' >
-                <input @click='start' type="button" name="" value="start">
+
                 <div class="result">
                     {{battle_result}}
                 </div>
@@ -25,6 +25,7 @@
 
                         </div>
                         <p>{{user_char.name}}</p>
+                        <p @click='test_socket'>Test socket</p>
                         <div class="">
                             <battle @useratack='useratack'></battle>
                         </div>
@@ -73,6 +74,16 @@ export default {
 		}
 	},
 	methods:{
+        test_socket(){
+            const socket = io('http://localhost:4000', { transports: ['websocket'], upgrade: false });
+            socket.on('message',(messgae)=>{
+                console.log(messgae);
+            })
+            // socket.onmessage = function(event) {
+            //     var incomingMessage = event.data;
+            //     console.log(incomingMessage);
+            // };
+        },
         life_line(target){
             return (target.activ_life/ target.base_stamina)*100 +'%';
         },

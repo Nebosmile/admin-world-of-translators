@@ -1,6 +1,7 @@
 <template>
     <div class="main_wrap">
         <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+        <script src="/socket.io/socket.io.js"></script>
         <div class="head_section">
             <div class="">
                 <img @click='show_hide_menu' src="@/static/img/gumbdark.png" alt="">
@@ -47,7 +48,7 @@ body{
 }
 .main_wrap{
     position: absolute;
-    width: 100%;
+    min-width: 100%;
     min-height: 100vh;
 }
 .theme_color{
