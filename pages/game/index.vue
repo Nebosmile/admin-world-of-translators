@@ -2,12 +2,21 @@
   	<div class="">
   		<h1>Chose character</h1>
 		<div class="char_list">
-			<div
-				v-for='item in character_list' class="character"
-				@click='init_battle(item)'
-			>
-				{{item.name}}
-			</div>
+            <div v-for='item in character_list' class="character_wrap">
+                <div class="character" >
+                    {{item.name}}
+                </div>
+                <input @click='choose_character(item)' type="button" name="" value="Choose">
+                <!-- <input @click='init_battle(item)' type="button" name="" value="Choose"> -->
+            </div>
+        </div>
+        <div v-if='choosed_char' >
+            <div class="choosed_char">
+                {{choosed_char.name}}
+            </div>
+            <button @click='init_battle(choosed_char)' type="button" name="button">start</button>
+        </div>
+        <div class="">
             <input type="button" @click='back' name="" value="back">
 
             <div class="" v-if='battle' >
@@ -18,11 +27,8 @@
                 <div class="battle">
                     <div class="battle_info">
                         <div class="life">
-                            <div :style='{width: life_line(user_char)}' class="red_life">
-
-                            </div>
+                            <div :style='{width: life_line(user_char)}' class="red_life"></div>
                             <p>{{user_char.activ_life}}</p>
-
                         </div>
                         <p>{{user_char.name}}</p>
                         <p @click='test_socket'>Test socket</p>
@@ -65,24 +71,30 @@ export default {
 		return{
 			character_list:'',
             creature_list:'',
+            choosed_char:'',
 			user_char:'',
 			oponent:'',
 			battle:false,
             active_battle:false,
             battle_result:'',
             user_ansver:'',
+            socket:'',
 		}
 	},
 	methods:{
         test_socket(){
-            const socket = io('http://localhost:4000', { transports: ['websocket'], upgrade: false });
-            socket.on('message',(messgae)=>{
-                console.log(messgae);
+            this.socket = io('http://localhost:4000', { transports: ['websocket'], upgrade: false });
+            this.socket.on('test',(message)=>{
+                console.log(message);
+                if (message.status=='200',message.result=='conected' ) {
+                    console.log('socket is ready');
+                    this.add_battle()
+                }
             })
-            // socket.onmessage = function(event) {
-            //     var incomingMessage = event.data;
-            //     console.log(incomingMessage);
-            // };
+        },
+        add_battle(){
+            this.socket.emit('initbattle', this.choosed_char);
+            console.log('initbattle');
         },
         life_line(target){
             return (target.activ_life/ target.base_stamina)*100 +'%';
@@ -147,7 +159,15 @@ export default {
                 // }
             })
         },
+        async choose_character(obj){
+            this.choosed_char=obj;
+        },
 		async init_battle(obj){
+
+            this.test_socket()
+            // var get_character = await this.search_char(obj._id);
+
+            return
             var get_creature = await this.get_creature_list();
             this.creature_list=get_creature.result;
             var rand = this.randomInteger(0, this.creature_list.length-1)
@@ -167,6 +187,18 @@ export default {
 		    rand = Math.round(rand);
 		    return rand;
 		},
+        search_char(id){
+            console.log(id);
+            var postdata={
+                '_id':id
+            }
+            return $.ajax({
+                url:'/admin/characters/search',
+                type:'POST',
+                data:postdata,
+                dataType:'json',
+            })
+        },
 		search(){
 			$.ajax({
 				url:'/admin/characters/search',
@@ -218,6 +250,8 @@ export default {
 }
 .char_list{
 	width: 100%;
+    display: flex;
+    margin-bottom: 10px;
 	.character{
 		display: inline-block;
 		background-color: rgb(227, 225, 245);
@@ -234,5 +268,15 @@ export default {
         -ms-user-select: none; /* Internet Explorer/Edge */
         user-select: none;
 	}
+}
+.character_wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.choosed_char{
+    border: 1px solid #000;
+    background-color: rgb(29, 209, 67)
 }
 </style>

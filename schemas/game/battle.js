@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
 
 const battleSchema = mongoose.Schema({
-	player:{
+	players:{
+		type:Array,
+	},
+	creature:{
 		type:Object,
 	},
-	oponnent:{
-		type:Object,
+	battleType:{
+		type:String,
 	}
 })
+
+module.exports = mongoose.model("battleSchema", battleSchema);

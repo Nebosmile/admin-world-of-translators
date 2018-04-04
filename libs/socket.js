@@ -1,18 +1,29 @@
 let socketIO = require('socket.io');
-
+const battle = require('../controlers/socket/battlecontrol.js')
 
 function socket(server) {
-  let io = socketIO(server);
+	let io = socketIO(server);
 
-  io.on('connection', function (socket) {
-	  console.log('is conect');
-    socket.emit('message', 'hello diar user', function(response) {
-      console.log("delivered", response);
-    });
+	io.on('connection', function(socketcontrol) {
+		console.log('is conect');
+		socketcontrol.emit('test', {
+			status: '200',
+			result: 'conected'
+		}, function(response) {
+			console.log("delivered", response);
+		});
 
-    // socket.on('', () => {...});
+		// socket.on('', () => {...});
 
-    socket.broadcast.emit('welcome', `user  connected!`);
-  });
+		socketcontrol.broadcast.emit('welcome', `user  connected!`);
+
+        socketcontrol.on('message', (data) => { console.log(data) })
+        socketcontrol.on('initbattle', (data) => { battle.initbattle(socketcontrol,data) })
+
+		// routers
+	});
+
 }
+
+
 module.exports = socket;
