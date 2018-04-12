@@ -30,6 +30,10 @@ export default {
                     text:'creature'
                 },
                 {
+                    link:'/battlesessions',
+                    text:'battlesessions'
+                },
+                {
                     link:'/game',
                     text:'game'
                 }

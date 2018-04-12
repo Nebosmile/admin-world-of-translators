@@ -9,6 +9,7 @@ const base_controller = require('./controlers/index');
 const word_controller = require('./controlers/words_control');
 const character_controller = require('./controlers/character_control');
 const creature_controller = require('./controlers/creature_control');
+const battle_controller = require('./controlers/battlesessions');
 
 
 
@@ -43,6 +44,9 @@ router.post('/creature/add',creature_controller.save);
 router.post('/creature/edit/:id',creature_controller.edit);
 router.post('/creature/delete/:id',creature_controller.remove);
 router.post('/creature/search',creature_controller.search_item);
+
+router.post('/battlesessions/delete/:id',battle_controller.remove);
+router.post('/battlesessions/search',battle_controller.search_item);
 
 
 

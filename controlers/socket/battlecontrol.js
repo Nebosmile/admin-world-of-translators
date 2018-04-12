@@ -13,6 +13,21 @@ module.exports={
 			console.log(playerchar.name);
 			console.log(rund_creature.name);
 
+			var addBattle = new battleSchema({
+				players:[playerchar],
+				creature:rund_creature
+			})
+			try{
+				saveBattle= await addBattle.save((err,result)=>{
+					socket.emit('battleInited',{
+						status: '200',
+						result: result
+					})
+				})
+			}catch(err){
+				console.log(err);
+			}
+
 	},
 	async conectbattle(socket, obj){
 

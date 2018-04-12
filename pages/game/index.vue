@@ -91,6 +91,13 @@ export default {
                     this.add_battle()
                 }
             })
+            this.socket.on('battleInited',(message)=>{
+                console.log(message);
+                if (message.status=='200',message.result=='conected' ) {
+                    console.log('socket is ready');
+                    this.add_battle()
+                }
+            })
         },
         add_battle(){
             this.socket.emit('initbattle', this.choosed_char);
