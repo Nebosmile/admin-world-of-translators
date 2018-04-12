@@ -92,12 +92,27 @@ export default {
                 }
             })
             this.socket.on('battleInited',(message)=>{
-                console.log(message);
+                console.log(message.result);
                 if (message.status=='200',message.result=='conected' ) {
                     console.log('socket is ready');
                     this.add_battle()
                 }
             })
+        },
+        async draw_battle(){
+            var get_creature = await this.get_creature_list();
+            this.creature_list=get_creature.result;
+            var rand = this.randomInteger(0, this.creature_list.length-1)
+
+            var op_obj=this.creature_list[rand];
+            op_obj.activ_life=op_obj.base_stamina;
+            this.oponent=JSON.parse(JSON.stringify(op_obj))
+            obj.activ_life=obj.base_stamina
+            this.user_char =JSON.parse(JSON.stringify(obj));
+
+
+
+            this.battle=true;
         },
         add_battle(){
             this.socket.emit('initbattle', this.choosed_char);
@@ -175,19 +190,6 @@ export default {
             // var get_character = await this.search_char(obj._id);
 
             return
-            var get_creature = await this.get_creature_list();
-            this.creature_list=get_creature.result;
-            var rand = this.randomInteger(0, this.creature_list.length-1)
-
-            var op_obj=this.creature_list[rand];
-            op_obj.activ_life=op_obj.base_stamina;
-            this.oponent=JSON.parse(JSON.stringify(op_obj))
-            obj.activ_life=obj.base_stamina
-			this.user_char =JSON.parse(JSON.stringify(obj));
-
-
-
-            this.battle=true;
 		},
 		randomInteger(min, max) {
 		    var rand = min - 0.5 + Math.random() * (max - min + 1)

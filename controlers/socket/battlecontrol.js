@@ -10,12 +10,17 @@ module.exports={
 			var rand = randomInteger(0, creature.length-1);
 			var rund_creature=creature[rand];
 
-			console.log(playerchar.name);
-			console.log(rund_creature.name);
+			playerchar=playerchar.toObject();
+			rund_creature=rund_creature.toObject();
+
+			playerchar.activ_life = playerchar.base_stamina;
+			rund_creature.activ_life = rund_creature.base_stamina;
+
 
 			var addBattle = new battleSchema({
 				players:[playerchar],
-				creature:rund_creature
+				creature:rund_creature,
+				battleType:'creature', // creature, boss, duel
 			})
 			try{
 				saveBattle= await addBattle.save((err,result)=>{
