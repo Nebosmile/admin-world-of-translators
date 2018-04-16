@@ -88,35 +88,24 @@ export default {
                 console.log(message);
                 if (message.status=='200',message.result=='conected' ) {
                     console.log('socket is ready');
-                    this.add_battle()
+
                 }
             })
             this.socket.on('battleInited',(message)=>{
                 console.log(message.result);
-                if (message.status=='200',message.result=='conected' ) {
-                    console.log('socket is ready');
-                    this.add_battle()
+                if (message.status=='200') {
+                    this.draw_battle(message.result);
                 }
             })
         },
-        async draw_battle(){
-            var get_creature = await this.get_creature_list();
-            this.creature_list=get_creature.result;
-            var rand = this.randomInteger(0, this.creature_list.length-1)
-
-            var op_obj=this.creature_list[rand];
-            op_obj.activ_life=op_obj.base_stamina;
-            this.oponent=JSON.parse(JSON.stringify(op_obj))
-            obj.activ_life=obj.base_stamina
-            this.user_char =JSON.parse(JSON.stringify(obj));
-
-
-
+        draw_battle(battleObj){
+            console.log('drawfunction');
+            this.oponent=battleObj.creature
+            this.user_char =battleObj.players[0];
             this.battle=true;
         },
         add_battle(){
             this.socket.emit('initbattle', this.choosed_char);
-            console.log('initbattle');
         },
         life_line(target){
             return (target.activ_life/ target.base_stamina)*100 +'%';
@@ -185,8 +174,8 @@ export default {
             this.choosed_char=obj;
         },
 		async init_battle(obj){
+            this.add_battle()
 
-            this.test_socket()
             // var get_character = await this.search_char(obj._id);
 
             return
@@ -228,6 +217,7 @@ export default {
 	},
 	mounted(){
 		this.search()
+        this.test_socket()
 	}
 }
 </script>
