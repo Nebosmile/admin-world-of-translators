@@ -34,8 +34,11 @@ export default {
 		}
 	},
 	props:{
-		options:{
+		socket:{
 			type: Object
+		},
+		battleid:{
+			type:String
 		}
 	},
 	methods:{
@@ -43,9 +46,13 @@ export default {
 			this.active_answer=[];
 			this.word_question=[];
 			this.counter=0;
+			var kickobj={
+				type:'creature',
+				battleid:this.battleid
+			}
 			var answer= await this.get_random_word();
 			this.word_obj.active_word=answer.result;
-			this.$emit('useratack');
+			this.socket.emit('kick', kickobj);
 			this.setwordArr();
 		},
 		setwordArr(){
@@ -110,10 +117,14 @@ export default {
 			var answer= await this.get_random_word();
 			this.word_obj.active_word=answer.result;
 			this.setwordArr();
+		},
+		setSocketListener(){
+
 		}
 	},
 	mounted(){
-
+		this.start()
+		this.setSocketListener()
 	}
 }
 </script>

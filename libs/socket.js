@@ -19,6 +19,7 @@ function socket(server) {
 
         socketcontrol.on('message', (data) => { console.log(data) })
         socketcontrol.on('initbattle', (data) => { battle.initbattle(socketcontrol,data) })
+		socketcontrol.on('kick', (data) => { battle.kick(socketcontrol,data) })
 
 		// routers
 	});

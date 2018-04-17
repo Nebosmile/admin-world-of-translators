@@ -14,7 +14,7 @@
             <div class="choosed_char">
                 {{choosed_char.name}}
             </div>
-            <button @click='init_battle(choosed_char)' type="button" name="button">start</button>
+            <button @click='init_battle(choosed_char)' type="button" name="button">start battle</button>
         </div>
         <div class="">
             <input type="button" @click='back' name="" value="back">
@@ -33,7 +33,7 @@
                         <p>{{user_char.name}}</p>
                         <p @click='test_socket'>Test socket</p>
                         <div class="">
-                            <battle @useratack='useratack'></battle>
+                            <battle :battleid='battleid' :socket='socket' @useratack='useratack'></battle>
                         </div>
 
                     </div>
@@ -79,6 +79,7 @@ export default {
             battle_result:'',
             user_ansver:'',
             socket:'',
+            battleid:'',
 		}
 	},
 	methods:{
@@ -97,11 +98,18 @@ export default {
                     this.draw_battle(message.result);
                 }
             })
+            this.socket.on('kicked',(message)=>{
+                console.log(message);
+                if (message.status=='200') {
+                    this.draw_battle(message.result);
+                }
+            })
         },
         draw_battle(battleObj){
             console.log('drawfunction');
             this.oponent=battleObj.creature
             this.user_char =battleObj.players[0];
+            this.battleid=battleObj._id;
             this.battle=true;
         },
         add_battle(){

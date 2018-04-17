@@ -34,7 +34,5 @@ module.exports={
 
 
 	},
-	async delete_item(ctx){
 
-	},
 }
