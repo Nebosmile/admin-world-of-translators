@@ -1,6 +1,5 @@
 <template lang="html">
 	<div class="center">
-		<input @click='start' type="button" name="" value="start">
 		<div class="">
 			<h1>{{word_obj.active_word[word_obj.user_lang]}}</h1>
 

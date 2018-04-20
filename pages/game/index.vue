@@ -22,7 +22,7 @@
             <div class="" v-if='battle' >
 
                 <div class="result">
-                    {{battle_result}}
+                    {{battleResult}}
                 </div>
                 <div class="battle">
                     <div class="battle_info">
@@ -76,10 +76,10 @@ export default {
 			oponent:'',
 			battle:false,
             active_battle:false,
-            battle_result:'',
             user_ansver:'',
             socket:'',
             battleid:'',
+            battleResult:'',
 		}
 	},
 	methods:{
@@ -100,9 +100,14 @@ export default {
             })
             this.socket.on('kicked',(message)=>{
                 console.log(message);
-                if (message.status=='200') {
-                    this.draw_battle(message.result);
+                if(message.result.battleResult!=''){
+                    this.battleResult=message.result.battleResult;
+                    return
                 }
+                if (message.status=='200') {
+                    this.draw_battle(message.result.battleState);
+                }
+
             })
         },
         draw_battle(battleObj){
@@ -118,11 +123,6 @@ export default {
         life_line(target){
             return (target.activ_life/ target.base_stamina)*100 +'%';
         },
-        async start(){
-            this.battle_result=''
-
-            // this.creature_atack(this.oponent,this.user_char);
-        },
         hit(source, target,callback){
             if(this.check_life()){
                 this.active_battle=false;
@@ -134,21 +134,7 @@ export default {
             console.log(this.user_char.activ_life);
 
         },
-        check_life(){
-                if(this.user_char.activ_life<=0 || this.oponent.activ_life<=0){
-                    return true
-                }
-                return false
-        },
-        result(){
-            if(this.user_char.activ_life>this.oponent.activ_life){
-                this.battle_result=`${this.user_char.name} win`
-            }else if(this.user_char.activ_life<this.oponent.activ_life){
-                this.battle_result=`${this.oponent.name} win`
-            }else{
-                this.battle_result='dead heat'
-            }
-        },
+
         creature_atack(oponent,player){
             console.log('creature_atack');
             setTimeout(()=>{
@@ -253,7 +239,12 @@ export default {
 }
 .result{
     text-align: center;
-    font-size: 20px;
+    font-size: 40px;
+    width: 100px;
+    height: 50px;
+    // border:1px solid;
+    margin:10px auto;
+    color: green;
 }
 .char_list{
 	width: 100%;

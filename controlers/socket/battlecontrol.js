@@ -54,16 +54,23 @@ module.exports={
 		}
 		var targetobj=target_schema.toObject();
 		targetobj.creature.activ_life -= targetobj.players[0].base_strength;
-		const up_shema= await target_schema.set(targetobj).save();
+
+
+		var up_shema= await target_schema.set(targetobj).save();
+		up_shema = up_shema.toObject();
+
+		var status= check_life(up_shema)
+
+		var battleobj={
+			battleResult:status,
+			battleState:up_shema
+		}
 		// console.log(up_shema);
 		socket.emit('kicked',{
 			status:'200',
-			result:up_shema
+			result:battleobj
 		})
 
-
-	},
-	async end(){
 
 	},
 
@@ -71,17 +78,37 @@ module.exports={
 async function makebattlesession(player, creature) {
 
 }
+
+function check_life(battle_state){
+	var result='';
+	if(battle_state.creature.activ_life<=0){
+		result = 'victory'
+	}else if(battle_state.players[0].activ_life<=0){
+		result = 'lose'
+	}
+	return result;
+}
+function atackCalc(triger,target){
+	target.activ_life -= triger.base_strength;
+}
+function critCalc(chance){
+	var iscrit = randomInteger(1,100)
+	if(iscrit<=chance){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
 function randomInteger(min, max) {
-	var rand = min - 0.5 + Math.random() * (max - min + 1)
-	rand = Math.round(rand);
-	return rand;
+	var rand = min + Math.random() * (max + 1 - min);
+    rand = Math.floor(rand);
+    return rand;
 }
 async function ai_atack(socket, id){
 
-	console.log('aiatack');
 	var target_schema =  await battleSchema.findById(id);
 	if(Number(target_schema.players[0].activ_life) > 0 && Number(target_schema.creature.activ_life)>0){
-		console.log(target_schema);
 		if(!target_schema){
 			socket.emit('kick_result',{
 				status:'404',
@@ -90,16 +117,21 @@ async function ai_atack(socket, id){
 			return
 		}
 		var targetobj=target_schema.toObject();
-		console.log(target_schema.creature.activ_life);
 		targetobj.players[0].activ_life -= targetobj.creature.base_strength;
-		console.log(target_schema.creature.activ_life);
 
-		const up_shema= await target_schema.set(targetobj).save();
-		console.log(up_shema);
-		console.log('okeyd');
+		var up_shema= await target_schema.set(targetobj).save();
+		up_shema = up_shema.toObject();
+
+		var status= check_life(up_shema)
+
+		var battleobj={
+			battleResult:status,
+			battleState:up_shema
+		}
+
 		socket.emit('kicked',{
 			status:'200',
-			result:up_shema
+			result:battleobj
 		})
 
 		if(Number(up_shema.players[0].activ_life) > 0 && Number(up_shema.creature.activ_life)>0){
