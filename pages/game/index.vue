@@ -26,6 +26,10 @@
                 </div>
                 <div class="battle">
                     <div class="battle_info">
+                        <div class="">
+                            {{user_char.kick_result.ability}}&gt;
+                            {{user_char.kick_result.kicksize}}
+                        </div>
                         <div class="life">
                             <div :style='{width: life_line(user_char)}' class="red_life"></div>
                             <p>{{user_char.activ_life}}</p>
@@ -38,6 +42,11 @@
 
                     </div>
                     <div class="battle_info">
+                        <div class="">
+                            {{oponent.kick_result.kicksize}}&lt;
+                            {{oponent.kick_result.ability}}
+
+                        </div>
                         <div class="life">
                             <div :style='{width: life_line(oponent)}' class="red_life">
 
@@ -100,12 +109,13 @@ export default {
             })
             this.socket.on('kicked',(message)=>{
                 console.log(message);
+
+                if (message.status=='200') {
+                    this.draw_battle(message.result.battleState);
+                }
                 if(message.result.battleResult!=''){
                     this.battleResult=message.result.battleResult;
                     return
-                }
-                if (message.status=='200') {
-                    this.draw_battle(message.result.battleState);
                 }
 
             })

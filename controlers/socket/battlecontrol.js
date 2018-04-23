@@ -53,11 +53,14 @@ module.exports={
 			return
 		}
 		var targetobj=target_schema.toObject();
-		targetobj.creature.activ_life -= targetobj.players[0].base_strength;
+		var kick_result=  atackCalc(targetobj.players[0],targetobj.creature)
+		// targetobj.creature.activ_life -= targetobj.players[0].base_strength;
 
 
 		var up_shema= await target_schema.set(targetobj).save();
 		up_shema = up_shema.toObject();
+		up_shema.players[0].kick_result=kick_result.triger
+		up_shema.creature.kick_result=kick_result._target
 
 		var status= check_life(up_shema)
 
@@ -89,7 +92,25 @@ function check_life(battle_state){
 	return result;
 }
 function atackCalc(triger,target){
-	target.activ_life -= triger.base_strength;
+
+	var kickobj={
+		'triger':{
+			ability:'kick',
+			kicksize:''
+		},
+		'_target':{
+			ability:false
+		}
+	}
+
+	var ckeckcrit=critCalc(triger.base_strength)
+
+	if(ckeckcrit){
+		kickobj.triger.ability=crit
+	}
+	kickobj.triger.kicksize=(triger.base_strength + triger.base_strength*ckeckcrit)
+	target.activ_life -= kickobj.triger.kicksize;
+	return kickobj;
 }
 function critCalc(chance){
 	var iscrit = randomInteger(1,100)
@@ -117,10 +138,13 @@ async function ai_atack(socket, id){
 			return
 		}
 		var targetobj=target_schema.toObject();
-		targetobj.players[0].activ_life -= targetobj.creature.base_strength;
-
+		var kick_result=  atackCalc(targetobj.creature,targetobj.players[0])
 		var up_shema= await target_schema.set(targetobj).save();
+
 		up_shema = up_shema.toObject();
+
+		up_shema.players[0].kick_result=kick_result._target
+		up_shema.creature.kick_result=kick_result.triger
 
 		var status= check_life(up_shema)
 
