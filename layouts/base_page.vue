@@ -4,8 +4,17 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
         <div class="head_section">
             <div class="">
-                <img @click='show_hide_menu' src="@/static/img/gumbdark.png" alt="">
-                Show_hide
+                <span><img @click='show_hide_menu' src="@/static/img/gumbdark.png" alt="">
+                Show_hide</span>
+                <form v-if='$store.state.access==false' class="right" action="index.html" method="post">
+                    <label>login <input type="text" /></label>
+                    <label>password <input type="password" /></label>
+                </form>
+                <span v-if='$store.state.access==true' class="">
+                    {{$store.state.user}}
+                </span>
+                <button @click='changeState' type="button" name="button">change state</button>
+
             </div>
         </div>
         <div class="menu_section open" ref ='menu_section'>
@@ -29,10 +38,20 @@ export default {
     components: {
         mainmenu
     },
+    fetch(){
+
+    },
+
+    mounted(){
+        // console.log(this.access);
+    },
     methods:{
         show_hide_menu(){
             this.$refs.menu_section.classList.toggle('open');
             this.$refs.admin_wrap.classList.toggle('open');
+        },
+        changeState(){
+            this.$store.commit('changeState')
         }
     }
 };
