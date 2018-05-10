@@ -27,8 +27,8 @@
                 <div class="battle">
                     <div class="battle_info">
                         <div class="">
-                            {{user_char.kick_result.ability}}&gt;
-                            {{user_char.kick_result.kicksize}}
+                            <!-- {{user_char.kick_result.ability}}; -->
+                            <!-- {{user_char.kick_result.kicksize}} -->
                         </div>
                         <div class="life">
                             <div :style='{width: life_line(user_char)}' class="red_life"></div>
@@ -43,8 +43,8 @@
                     </div>
                     <div class="battle_info">
                         <div class="">
-                            {{oponent.kick_result.kicksize}}&lt;
-                            {{oponent.kick_result.ability}}
+                            <!-- {{oponent.kick_result.kicksize}}&lt;
+                            {{oponent.kick_result.ability}} -->
 
                         </div>
                         <div class="life">

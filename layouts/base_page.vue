@@ -10,9 +10,12 @@
                     <label>login <input type="text" /></label>
                     <label>password <input type="password" /></label>
                 </form>
-                <span v-if='$store.state.access==true' class="">
-                    {{$store.state.user}}
-                </span>
+                <div class="right">
+                    <span v-if='$store.state.access==true' class="">
+                        {{$store.state.user}}
+                    </span>
+                </div>
+
                 <button @click='changeState' type="button" name="button">change state</button>
 
             </div>
@@ -51,7 +54,7 @@ export default {
             this.$refs.admin_wrap.classList.toggle('open');
         },
         changeState(){
-            this.$store.commit('changeState')
+            this.$store.commit('changeState');
         }
     }
 };
