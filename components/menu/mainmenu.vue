@@ -15,28 +15,41 @@ export default {
 		return{
 			menu:[
                 {
-                    link:'/dictionary',
+                    link:'/adminpanel/dictionary',
                     text:'dictionarytext',
                     childs:{
 
                     }
                 },
                 {
-                    link:'/characters',
+                    link:'/adminpanel/characters',
                     text:'characters'
                 },
                 {
-                    link:'/creature',
-                    text:'creature'
+                    link:'/adminpanel/creature',
+                    text:'creatures'
                 },
                 {
-                    link:'/battlesessions',
+                    link:'/adminpanel/battlesessions',
                     text:'battlesessions'
                 },
                 {
-                    link:'/game',
+                    link:'/adminpanel/game',
                     text:'game'
-                }
+                },
+                {
+                    link:'/adminpanel/users',
+                    text:'users'
+                },
+                {
+                    link:'/login',
+                    text:'login'
+                },
+                {
+                    link:'/registration',
+                    text:'registration'
+                },
+
             ]
 		}
 	}

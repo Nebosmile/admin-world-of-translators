@@ -9,7 +9,7 @@ module.exports={
         ctx.type ='html';
         ctx.body = fs.createReadStream('public/builds.html')
     },
-    async registr(ctx){
+    async save(ctx){
         console.log(ctx.request.body);
         var userobj={}
         for(var key in ctx.request.body){
@@ -22,8 +22,11 @@ module.exports={
 
                 })
 
-                ctx.type ='text';
-                ctx.body = result
+                ctx.type ='json';
+                ctx.body = {
+                    status:200,
+                    result:result
+                }
 
             }catch(err){
                 if(err.name !='ValidationError') throw err;
@@ -53,5 +56,27 @@ module.exports={
             ctx.body = 'user not found, or password is incorect'
         }
 
-    }
+    },
+    async search_item(ctx){
+        console.log('search');
+        console.log(ctx.request.body);
+        var obj={}
+
+        if(ctx.request.body._id){
+            obj.result = await UserSchema.findOne({'_id':ctx.request.body._id});
+        }else{
+            obj.result =    await UserSchema.find({});
+        }
+        if(!obj.result){
+            obj.status='404';
+            obj.result='not found'
+        }else{
+            obj.status='200';
+
+        }
+        ctx.type='json';
+        ctx.body=obj
+
+
+    },
 }

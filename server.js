@@ -80,7 +80,12 @@ app.use(async (ctx, next) => {
 
 const socket = require('./libs/socket.js');
 const server = app.listen(config.port);
-socket(server);
+try{
+    socket(server);
+}catch(e){
+    console.log(e);
+}
+
 
 
 

@@ -106,7 +106,7 @@ function atackCalc(triger,target){
 	var ckeckcrit=critCalc(triger.base_strength)
 
 	if(ckeckcrit){
-		kickobj.triger.ability='crit'
+		kickobj.triger.ability='crit';
 	}
 	kickobj.triger.kicksize=(triger.base_strength + triger.base_strength*ckeckcrit)
 	target.activ_life -= kickobj.triger.kicksize;
@@ -127,51 +127,46 @@ function randomInteger(min, max) {
     return rand;
 }
 async function ai_atack(socket, id){
-	console.log(1);
-	var target_schema =  await battleSchema.findById(id);
-	if(!target_schema){
-		socket.emit('kick_result',{
-			status:'404',
-			result:'not found'
-		})
-		return
-	}
-	console.log(2);
-	if(Number(target_schema.players[0].activ_life) > 0 && Number(target_schema.creature.activ_life)>0){
-		console.log(3);
-		var targetobj=target_schema.toObject();
-		var kick_result=  atackCalc(targetobj.creature,targetobj.players[0])
-		var up_shema= await target_schema.set(targetobj).save();
-		console.log(up_shema);
-		// console.log(up_shema.players[0].activ_life);
-		// console.log(up_shema.creature.activ_life);
-		console.log(4);
-		up_shema = up_shema.toObject();
+	try{
+		var target_schema =  await battleSchema.findById(id);
+		if(!target_schema){
+			socket.emit('kick_result',{
+				status:'404',
+				result:'not found'
+			})
+			return
+		}
+		if(Number(target_schema.players[0].activ_life) > 0 && Number(target_schema.creature.activ_life)>0){
+			var targetobj=target_schema.toObject();
+			var kick_result=  atackCalc(targetobj.creature,targetobj.players[0])
+			var up_shema= await target_schema.set(targetobj).save();
+			// console.log(up_shema.players[0].activ_life);
+			// console.log(up_shema.creature.activ_life);
+			up_shema = up_shema.toObject();
 
-		up_shema.players[0].kick_result=kick_result._target
-		up_shema.creature.kick_result=kick_result.triger
+			up_shema.players[0].kick_result=kick_result._target
+			up_shema.creature.kick_result=kick_result.triger
 
-		var status= check_life(up_shema)
+			var status= check_life(up_shema)
 
-		var battleobj={
-			battleResult:status,
-			battleState:up_shema
+			var battleobj={
+				battleResult:status,
+				battleState:up_shema
+			}
+
+			socket.emit('kicked',{
+				status:'200',
+				result:battleobj
+			})
+			if(Number(up_shema.players[0].activ_life) > 0 && Number(up_shema.creature.activ_life)>0){
+				setTimeout(()=>{
+						console.log('next kick');
+						ai_atack(socket, id)
+				},up_shema.creature.atack_speed*1000)
+			}
 		}
 
-		socket.emit('kicked',{
-			status:'200',
-			result:battleobj
-		})
-		console.log(5);
-		if(Number(up_shema.players[0].activ_life) > 0 && Number(up_shema.creature.activ_life)>0){
-			console.log(6);
-			setTimeout(()=>{
-					console.log('next kick');
-					ai_atack(socket, id)
-			},up_shema.creature.atack_speed*1000)
-		}
+	}catch(e){
+		console.log(e);
 	}
-
-
-
 }

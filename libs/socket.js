@@ -17,8 +17,13 @@ function socket(server) {
 
 		socketcontrol.broadcast.emit('welcome', `user  connected!`);
 
+		socketcontrol.on('error', (err) => { console.log(data) })
         socketcontrol.on('message', (data) => { console.log(data) })
-        socketcontrol.on('initbattle', (data) => { battle.initbattle(socketcontrol,data) })
+        socketcontrol.on('initbattle', (data) => {
+				battle.initbattle(socketcontrol,data).catch((err)=>{
+					console.log(err);
+				})
+		})
 		socketcontrol.on('kick', (data) => { battle.kick(socketcontrol,data) })
 
 		// routers
