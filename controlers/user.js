@@ -49,8 +49,11 @@ module.exports={
         })
 
         if(hash){
-            ctx.type ='text';
-            ctx.body = 'user is logined'
+            ctx.type ='json';
+            ctx.body = {
+                status:200,
+                result:'user is logined'
+            }
         }else{
             ctx.type ='text';
             ctx.body = 'user not found, or password is incorect'

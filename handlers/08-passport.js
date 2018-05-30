@@ -1,6 +1,5 @@
 // in-memory store by default (use the right module instead)
-const passport = require('koa-passport')
-
+const passport = require('../libs/passport')
 // sadfhawlufey49fawhfa, sid
 
 /*

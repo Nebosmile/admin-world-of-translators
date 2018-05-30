@@ -12,6 +12,7 @@ var database= require('./config');
 
 
 var app = new Koa();
+app.keys = ['mysecret'];
 app.use(async (ctx, next) => {
   // in the future we'll extend this
   ctx.set('Access-Control-Allow-Origin', '*');

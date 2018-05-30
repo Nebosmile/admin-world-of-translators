@@ -1,6 +1,6 @@
 <template lang="html">
   	<div class="">
-  		<form class="" action="index.html" method="post">
+  		<form ref='form' class="" action="index.html" method="post">
   			<label for="">
   				login
 				<input type="text" name="in" value="">
@@ -9,6 +9,9 @@
 				password
 				<input type="password" name="passin" value="">
 			</label>
+			<div class="">
+				<input @click='login' type="button" name="" value="login">
+			</div>
   		</form>
   	</div>
 </template>
@@ -16,6 +19,27 @@
 <script>
 export default {
 	layout:'base_page',
+    methods:{
+        login(){
+            var form = this.$refs.form;
+            var login = form.in.value;
+            var password = form.passin.value;
+
+            var formdata={
+                login:login,
+                password:password
+            }
+            $.ajax({
+                url:'/admin/users/login',
+                type:'POST',
+                data:formdata,
+                dataType:'json',
+                success:(data)=> {
+                    console.log(data);
+                }
+            })
+        }
+    }
 }
 </script>
 
