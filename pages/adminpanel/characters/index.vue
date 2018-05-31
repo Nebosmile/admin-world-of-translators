@@ -1,7 +1,7 @@
 <template lang="html">
 	<div class="">
 		<div class="add">
-			<router-link to='/characters/add'>add new</router-link>
+			<router-link to='/adminpanel/characters/add'>add new</router-link>
 		</div>
 
 		<input @click='search' type="button" name="" value="characters">
@@ -66,7 +66,7 @@ export default {
 			})
 		},
 		edit_redirect(obj){
-			this.$router.push('/characters/edit/'+obj._id)
+			this.$router.push('/adminpanel/characters/edit/'+obj._id)
 			console.log(obj);
 		}
 	},

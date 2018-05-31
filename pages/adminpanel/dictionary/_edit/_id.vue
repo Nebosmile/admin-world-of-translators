@@ -1,7 +1,7 @@
 <template lang="html">
 	<div class="">
 		<div class="add">
-			<router-link to='/dictionary'>back</router-link>
+			<router-link to='/adminpanel/dictionary'>back</router-link>
 		</div>
 
 		<div class="">
@@ -58,7 +58,7 @@ export default {
 			console.log(params.id);
 			obj.itemid=params.id
 			if(params.edit!='edit'){
-				return redirect('/dictionary/')
+				return redirect('/adminpanel/dictionary/')
 			}
 
 		}
@@ -137,7 +137,7 @@ export default {
 				success:(data)=> {
 					console.log(data);
 					if(data.status==200){
-						this.$router.push('/dictionary')
+						this.$router.push('/adminpanel/dictionary')
 					}
 				}
 			})

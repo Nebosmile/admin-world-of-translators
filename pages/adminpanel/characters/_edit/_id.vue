@@ -1,7 +1,7 @@
 <template lang="html">
 	<div class="">
 		<div class="add">
-			<router-link to='/characters'>back</router-link>
+			<router-link to='/adminpanel/characters'>back</router-link>
 		</div>
 
 		<div class="">
@@ -77,7 +77,7 @@ export default {
 			console.log(params.id);
 			obj.itemid=params.id
 			if(params.edit!='edit'){
-				return redirect('/characters/')
+				return redirect('/adminpanel/characters/')
 			}
 
 		}
@@ -165,7 +165,7 @@ export default {
 				success:(data)=> {
 					console.log(data);
 					if(data.status==200){
-						this.$router.push('/characters')
+						this.$router.push('/adminpanel/characters')
 					}
 				}
 			})
