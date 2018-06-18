@@ -11,6 +11,7 @@
 			</label>
 			<div class="">
 				<input @click='login' type="button" name="" value="login">
+                <input @click='jwtauth' type="button" name="" value="jwtauth">
 			</div>
   		</form>
   	</div>
@@ -35,6 +36,19 @@ export default {
                 data:formdata,
                 dataType:'json',
                 success:(data)=> {
+                    console.log(data);
+                    if(data.token){
+                        this.$store.commit('setToken', data.token);
+                    }
+                }
+            })
+        },
+        jwtauth(){
+            $.ajax({
+                url:'/admin/users/jwtauth',
+                headers: {"jwttoken": this.$store.state.token},
+                type:'POST',
+                success:(data)=>{
                     console.log(data);
                 }
             })

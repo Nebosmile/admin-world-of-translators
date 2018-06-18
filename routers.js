@@ -11,6 +11,8 @@ const character_controller = require('./controlers/character_control');
 const creature_controller = require('./controlers/creature_control');
 const battle_controller = require('./controlers/battlesessions');
 const users_controller = require('./controlers/user');
+const place_controller = require('./controlers/place_control');
+
 const auth = require('./controlers/login');
 
 
@@ -47,9 +49,15 @@ router.post('/creature/edit/:id',creature_controller.edit);
 router.post('/creature/delete/:id',creature_controller.remove);
 router.post('/creature/search',creature_controller.search_item);
 
+router.post('/place/add',place_controller.save);
+router.post('/place/edit/:id',place_controller.edit);
+router.post('/place/delete/:id',place_controller.remove);
+router.post('/place/search',place_controller.search_item);
+
 router.post('/users/add',users_controller.save);
 //router.post('/users/edit/:id',users_controller.edit);
-router.post('/users/login/',auth.loginsession);
+router.post('/users/login/',auth.login);
+router.post('/users/jwtauth/',auth.loginjwt);
 router.post('/users/search',users_controller.search_item);
 
 router.post('/battlesessions/delete/:id',battle_controller.remove);

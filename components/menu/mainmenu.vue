@@ -42,6 +42,10 @@ export default {
                     text:'users'
                 },
                 {
+                    link:'/adminpanel/place',
+                    text:'place'
+                },
+                {
                     link:'/login',
                     text:'login'
                 },

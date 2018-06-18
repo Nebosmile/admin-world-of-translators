@@ -10,4 +10,5 @@ module.exports={
         length:24,
         iteration:10000
     },
+    jwtsecret:'secretlife2018'
 }

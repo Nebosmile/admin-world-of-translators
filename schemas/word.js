@@ -7,6 +7,10 @@ const word_schema = mongoose.Schema({
 		type:String,
 		unique: true
 	},
+	name:{
+		type:String,
+		unique: true
+	},
 	russian:{
 		type:String,
 	},

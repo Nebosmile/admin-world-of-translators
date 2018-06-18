@@ -54,7 +54,6 @@
 			<!-- <iframe id="ytplayer" type="text/html" width="720" height="405"
 src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&controls=0&loop=1&rel=0&showinfo=0"
 frameborder="0" allowfullscreen></iframe> -->
-
 		</form>
 	</div>
 </template>
@@ -62,6 +61,7 @@ frameborder="0" allowfullscreen></iframe> -->
 <script>
 
 import config from '@/nuxt.config.js'
+
 export default {
 	layout:'base_page',
 	components:{

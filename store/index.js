@@ -4,7 +4,8 @@ const createStore = () => {
 	return new Vuex.Store({
 		state: {
 			user: '12345t6',
-			access: true
+			access: true,
+			token:'',
 		},
 		mutations: {
 			userLogin(date) {
@@ -19,6 +20,9 @@ const createStore = () => {
 					this.state.user='nebosmile';
 				}
 
+			},
+			setToken(state,token){
+				state.token=token;
 			}
 		}
 	})

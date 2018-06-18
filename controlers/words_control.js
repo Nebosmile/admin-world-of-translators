@@ -15,6 +15,7 @@ module.exports={
 			english:ctx.request.body.english,
 			russian:ctx.request.body.russian,
 			ukrainian:ctx.request.body.ukrainian,
+            name:ctx.request.body.english,
 		})
 
 		try{
@@ -46,13 +47,15 @@ module.exports={
         if(!word){
             ctx.throw(404, 'User not found')
         }
-
-        const updWordr= await word.set(ctx.request.body).save();
+        var wordedit = ctx.request.body;
+        wordedit.name=word.english
+        const updWordr= await word.set(wordedit).save();
 
         ctx.body = updWordr;
 
 
 	},
+
     async remove(ctx){
         var obj={};
         obj.result = await wordShema.remove({'_id':ctx.params.id});
@@ -78,6 +81,8 @@ module.exports={
             obj.status='200';
 
         }
+
+        // await upnames()
         ctx.type='json';
         ctx.body=obj
 
@@ -118,4 +123,32 @@ module.exports={
             ctx.type='json';
             ctx.body=obj
     }
+}
+
+async function upnames(){
+    // var word=new wordShema({
+    //     english:ctx.request.body.english,
+    //     russian:ctx.request.body.russian,
+    //     ukrainian:ctx.request.body.ukrainian,
+    // })
+    var obj={}
+    var result =    await wordShema.find({},(err,items)=>{
+        items.forEach((item)=>{
+            item.name=item.english;
+            try{
+                item.save();
+            }catch(e){
+                console.log(e);
+            }
+
+        })
+    })
+
+    // var word = ctx.request.body;
+    // word.name=word.english
+    // const updWordr= await word.set(ctx.request.body).save();
+    //
+    // ctx.body = updWordr;
+
+
 }
