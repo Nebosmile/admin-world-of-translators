@@ -16,7 +16,7 @@
 				<input type="name" name="name" v-model="name">
 			</label>
 			<selectlist :options='creaturelist'></selectlist>
-			<selectlist :options='wortdslist'></selectlist>
+			<selectlist :options='wordslist'></selectlist>
 			<input @click='buttonclick' type="button" :value='edit' >
 			<input v-if='(edit=="edit")' @click='delete_item' type="button" value='delete' >
 			<!-- <iframe id="ytplayer" type="text/html" width="720" height="405"
@@ -61,7 +61,7 @@ export default {
 				arr:'',
 				link:'/creature/search',
 			},
-			wortdslist:{
+			wordslist:{
 				name:'words',
 				arr:'',
 				link:'/word/search',
@@ -77,9 +77,10 @@ export default {
 
 			var post_data={
 				creatures:this.creaturelist.arr,
-				words:this.creaturelist.arr,
+				words:this.wordslist.arr,
 				name:this.name,
 			}
+			console.log(post_data);
 			var id=''
 			if(this.itemid){
 				id=this.itemid

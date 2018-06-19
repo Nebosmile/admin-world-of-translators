@@ -1,15 +1,28 @@
 <template lang="html">
   	<div class="">
-  		<h1>Chose character</h1>
-		<div class="char_list">
-            <div v-for='item in character_list' class="character_wrap">
-                <div class="character" >
-                    {{item.name}}
+        <div class="chose_haracter">
+            <h1>Chose character1</h1>
+            <div class="char_list">
+                <div v-for='item in character_list' class="character_wrap">
+                    <div class="character" >
+                        {{item.name}}
+                    </div>
+                    <input @click='choose_character(item)' type="button" name="" value="Choose">
                 </div>
-                <input @click='choose_character(item)' type="button" name="" value="Choose">
-                <!-- <input @click='init_battle(item)' type="button" name="" value="Choose"> -->
             </div>
         </div>
+        <div class="chose_plase">
+            <h1>Chose place</h1>
+            <div class="char_list">
+                <div >
+                    <div class="character" >
+
+                    </div>
+                    <input>
+                </div>
+            </div>
+        </div>
+
         <div v-if='choosed_char' >
             <div class="choosed_char">
                 {{choosed_char.name}}
@@ -96,6 +109,8 @@ export default {
 	},
 	data(){
 		return{
+            state:"character", //"character", "place", "battle"
+            chosed_place:'',
 			character_list:'',
             creature_list:'',
             choosed_char:'',
@@ -163,19 +178,6 @@ export default {
 
         },
 
-        creature_atack(oponent,player){
-            console.log('creature_atack');
-            setTimeout(()=>{
-                this.hit(oponent,player);
-                if(this.check_life()){
-                    this.active_battle=false;
-                    this.result();
-                    return;
-                }
-                this.creature_atack(oponent,player);
-            },oponent.atack_speed*1000)
-
-        },
         back(){
             this.battle=false;
         },
@@ -202,23 +204,14 @@ export default {
 
             return
 		},
+        getplace(){
+
+        },
 		randomInteger(min, max) {
 		    var rand = min - 0.5 + Math.random() * (max - min + 1)
 		    rand = Math.round(rand);
 		    return rand;
 		},
-        search_char(id){
-            console.log(id);
-            var postdata={
-                '_id':id
-            }
-            return $.ajax({
-                url:'/admin/characters/search',
-                type:'POST',
-                data:postdata,
-                dataType:'json',
-            })
-        },
 		search(){
 			$.ajax({
 				url:'/admin/characters/search',
