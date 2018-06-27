@@ -37,6 +37,7 @@ export default {
 							callevent:'edit',
 						}
 					},
+					{value: 'location', name:'location',status:'checked',default:'1'},
 					{value: 'createdAt', name:'createdAt',status:'checked',default:'1'},
 					{value: 'updatedAt', name:'updatedAt',status:'checked',default:'1'},
 				]

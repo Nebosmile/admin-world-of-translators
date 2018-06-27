@@ -162,7 +162,12 @@ export default {
             this.battle=true;
         },
         add_battle(){
-            this.socket.emit('initbattle', this.choosed_char);
+            var newthis =this;
+            var final_obj ={
+                'player':this.choosed_char,
+                'place':this.choosed_place._id,
+            }
+            this.socket.emit('initbattle', final_obj);
         },
         life_line(target){
             return (target.activ_life/ target.base_stamina)*100 +'%';

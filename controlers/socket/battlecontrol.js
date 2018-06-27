@@ -5,7 +5,7 @@ const fs = require('fs');
 
 module.exports={
 	async initbattle(socket, obj){ //obj._id
-			var playerchar = await CharacterSchema.findOne({'_id':obj._id});
+			var playerchar = await CharacterSchema.findOne({'_id':obj.player._id});
 			var creature = await CreatureSchema.find({});
 			var rand = randomInteger(0, creature.length-1);
 			var rund_creature=creature[rand];
@@ -16,6 +16,7 @@ module.exports={
 			playerchar.activ_life = playerchar.base_stamina;
 			rund_creature.activ_life = rund_creature.base_stamina;
 			var newobj ={
+				loacation:obj.place,
 				players:[playerchar],
 				creature:rund_creature,
 				battleType:'creature', // creature, boss, duel
