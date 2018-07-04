@@ -10,7 +10,7 @@ const battleSchema = mongoose.Schema({
 	battleType: {
 		type: String
 	},
-	loacation: {
+	location: {
 		type: mongoose.Schema.ObjectId
 	},
 	createdAt: {

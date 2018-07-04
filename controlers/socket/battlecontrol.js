@@ -16,7 +16,7 @@ module.exports={
 			playerchar.activ_life = playerchar.base_stamina;
 			rund_creature.activ_life = rund_creature.base_stamina;
 			var newobj ={
-				loacation:obj.place,
+				location:obj.place,
 				players:[playerchar],
 				creature:rund_creature,
 				battleType:'creature', // creature, boss, duel
