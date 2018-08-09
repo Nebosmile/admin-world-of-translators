@@ -42,6 +42,7 @@ export default {
 						}
 					},
 					{value: 'name', name:'name',status:'checked',default:'1'},
+					{value: 'title', name:'title',status:'checked',default:'1'},
 					{value: 'base_strength', name:'base_strength',status:'checked',default:'1'},
 					{value: 'base_stamina', name:'base_stamina',status:'checked',default:'1'},
 					{value: 'base_agility', name:'base_agility',status:'checked',default:'1'},

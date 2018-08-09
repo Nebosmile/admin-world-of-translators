@@ -17,6 +17,10 @@
 					<input type="text" name="name" v-model="inputs.name">
 				</label>
 				<label for="">
+					title
+					<input type="text" name="title" v-model="inputs.title">
+				</label>
+				<label for="">
 					base_strength
 					<input type="number" name="base_strength" v-model="inputs.base_strength">
 				</label>
@@ -87,6 +91,7 @@ export default {
 		return{
 			inputs:{
 				name:'',
+				title:'',
 				base_strength:'',
 				base_stamina:'',
 				base_agility:'',
@@ -106,6 +111,7 @@ export default {
 
 			var post_data={
 				'name':this.inputs.name,
+				'title':this.inputs.title,
 				'atack_speed':this.inputs.atack_speed,
 				'base_strength':this.inputs.base_strength,
 				'base_stamina':this.inputs.base_stamina,

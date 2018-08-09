@@ -5,6 +5,9 @@ const creature_schema= mongoose.Schema({
 	name:{
 		type:String,
 	},
+	title:{
+		type:String,
+	},
 	base_strength:{
 		type:Number
 	},
