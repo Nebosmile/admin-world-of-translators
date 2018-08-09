@@ -1,4 +1,6 @@
 const targetSchema = require('../schemas/game/place');
+const creatureSchema = require('../schemas/game/creature.js');
+const wordsSchema = require('../schemas/word.js');
 const fs = require('fs');
 
 // console.log(db);
@@ -58,6 +60,25 @@ module.exports={
         }else{
             obj.result =    await targetSchema.find({});
         }
+        if(obj.result){
+            if(Array.isArray(obj.result)){
+                var  creature =  await creatureSchema.find({});
+                var  words =  await wordsSchema.find({});
+                    obj.result.forEach((item)=>{
+                        if(creature || words){
+                            if(creature){
+                                item.creatures = returnNames( item.creatures, creature)
+                            }
+                            if(words){
+                                item.words = returnNames(item.words, words)
+                            }
+                        }
+                    })
+                console.log(obj);
+            }
+
+        }
+
         if(!obj.result || obj.result.length < 1){
             obj.result='';
             obj.status='404';
@@ -71,4 +92,15 @@ module.exports={
 
 
 	},
+}
+function returnNames(ids, arr){
+    var newarr = ids.map((elem)=>{
+        var res = arr.find((item)=>{
+            if(item._id==elem){
+                return item.name
+            }
+        })
+        return res.name;
+    })
+    return newarr;
 }

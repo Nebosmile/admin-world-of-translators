@@ -124,7 +124,9 @@ export default {
                 }
                 return obj;
             }else if(name =='wincents'){
-              return (obj/100).toFixed(2)
+                return (obj/100).toFixed(2)
+            }else if(Array.isArray(obj)){
+                return obj.join(', ')
             }
             else {
                 if(obj==undefined){return ""}

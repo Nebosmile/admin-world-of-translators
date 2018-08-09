@@ -99,12 +99,9 @@ export default {
 			})
 		},
 		set_form_value(obj){
-			for(var elem in this.inputs){
-				// if(obj[elem]){
-					this.inputs[elem]=obj[elem];
-				// }
-
-			}
+			this.creaturelist.arr=obj.creatures;
+			this.wordslist.arr=obj.words;
+			this.$emit('update');
 		},
 		findOne(){
 			var post_data={

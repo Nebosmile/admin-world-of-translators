@@ -12,7 +12,7 @@
 
                 </div>
 
-                <div class="results">
+                <div v-if='options.arr' class="results">
                     <div v-for='(item, key) in results' class="">
                         <div class="">
                             {{item}}
@@ -42,12 +42,13 @@ export default {
 		return{
 			itemlist:'',
             results:{},
-            arr:[],
 		}
 	},
 	methods:{
         add(item){
+
             this.$set(this.results, item._id, item.name);
+
             var midleArr=[];
             for(var key in this.results){
                 midleArr.push(key)
@@ -64,6 +65,21 @@ export default {
             }
             this.options.arr=midleArr;
         },
+        setEditValue(){
+            if(this.options.arr){
+                var tempitem;
+                this.options.arr.forEach((item)=>{
+                    tempitem = item;
+                    this.$set(this.results, item, this.itemlist.find(fastfind).name);
+                })
+                function fastfind(elem){
+                    if(elem._id==tempitem){
+                        return true;
+                    }
+                }
+            }
+
+        },
 		search(){
 			$.ajax({
 				url:'/admin' + this.options.link,
@@ -73,13 +89,16 @@ export default {
 					console.log(data.result);
 					if(data.status==200){
 						this.itemlist = data.result;
+                        this.setEditValue(data.result)
 					}
 				}
 			})
 		},
+
 	},
 	mounted(){
 		this.search()
+        this.$parent.$on('update', this.setEditValue);
 	}
 }
 </script>

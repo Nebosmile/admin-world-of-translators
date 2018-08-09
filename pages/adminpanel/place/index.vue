@@ -43,13 +43,9 @@ export default {
 						}
 					},
 					{value: 'name', name:'name',status:'checked',default:'1'},
-					{value: 'base_strength', name:'base_strength',status:'checked',default:'1'},
-					{value: 'base_stamina', name:'base_stamina',status:'checked',default:'1'},
-					{value: 'base_agility', name:'base_agility',status:'checked',default:'1'},
-					{value: 'base_critical', name:'base_critical',status:'checked',default:'1'},
-					{value: 'base_blockchance', name:'base_blockchance',status:'checked',default:'1'},
-					{value: 'armor_coefficient', name:'armor_coefficient',status:'checked',default:'1'},
-					{value: 'atack_speed', name:'atack_speed',status:'checked',default:'1'},
+					{value: 'creatures', name:'creatures',status:'checked',default:'1'},
+					{value: 'words', name:'words',status:'checked',default:'1'},
+
 				]
 			},
 		}
