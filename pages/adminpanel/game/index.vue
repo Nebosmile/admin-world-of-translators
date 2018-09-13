@@ -27,7 +27,7 @@
             <div class="choosed_char">
                 {{choosed_char.name}}
             </div>
-            <button @click='init_battle(choosed_char)' type="button" name="button">start battle</button>
+            <button @click='init_battle()' type="button" name="button">start battle</button>
         </div>
         <div class="">
             <input type="button" @click='back' name="" value="back">
@@ -209,7 +209,7 @@ export default {
             this.state='battle';
             console.log(obj);
         },
-		async init_battle(obj){
+		async init_battle(){
             this.add_battle()
 
             // var get_character = await this.search_char(obj._id);

@@ -13,11 +13,17 @@ const battleSchema = mongoose.Schema({
 	location: {
 		type: mongoose.Schema.ObjectId
 	},
+	wordsList:{
+		type: Array
+	},
 	createdAt: {
 		type: Number
 	},
 	updatedAt: {
 		type: Number
+	},
+	activeWord:{
+		type:Object
 	}
 })
 

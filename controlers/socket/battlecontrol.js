@@ -1,7 +1,16 @@
 const battleSchema = require('../../schemas/game/battle.js');
 const CreatureSchema = require('../../schemas/game/creature.js');
 const CharacterSchema = require('../../schemas/game/characters.js');
+const PlaceSchema = require('../../schemas/game/place.js');
+const WordSchema = require('../../schemas/word.js');
+const mongoose = require('mongoose');
 const fs = require('fs');
+
+function 	randomInteger(min, max) {
+    var rand = min - 0.5 + Math.random() * (max - min + 1)
+	rand = Math.round(rand);
+	return rand;
+}
 
 module.exports={
 	async initbattle(socket, obj){ //obj._id
@@ -9,6 +18,21 @@ module.exports={
 			var creature = await CreatureSchema.find({});
 			var rand = randomInteger(0, creature.length-1);
 			var rund_creature=creature[rand];
+
+			var place = await PlaceSchema.findOne({'_id': obj.place})
+            console.log(place);
+
+            var creature_obj_arr = place.creatures.map(returnObjId)
+            var words_obj_arr = place.words.map(returnObjId)
+
+            var creature_list = await CreatureSchema.find({_id:{ $in: creature_obj_arr}})
+            var words_list = await WordSchema.find({_id:{ $in: words_obj_arr}})
+
+            console.log(' creature list is'+ creature_list);
+            console.log(' words list is'+ words_list);
+
+			var randword = await this.get_random_word(words_list);
+            ranword=words_list[randword];
 
 			playerchar=playerchar.toObject();
 			rund_creature=rund_creature.toObject();
@@ -20,6 +44,8 @@ module.exports={
 				players:[playerchar],
 				creature:rund_creature,
 				battleType:'creature', // creature, boss, duel
+                wordsList:words_list,
+                activeWord:ranword,
 			}
 
 			var addBattle = new battleSchema(newobj)
@@ -41,6 +67,14 @@ module.exports={
 
 	},
 	async conectbattle(socket, obj){
+
+	},
+	async get_random_word(arr){
+			var newword;
+			// var result =  await wordShema.find({});
+			var rand = randomInteger(0, arr.length-1);
+			console.log(rand);
+			return rand
 
 	},
 	async kick(socket, obj){
@@ -81,6 +115,9 @@ module.exports={
 }
 async function makebattlesession(player, creature) {
 
+}
+function returnObjId(item){
+    return new mongoose.Types.ObjectId(item);
 }
 
 function check_life(battle_state){
