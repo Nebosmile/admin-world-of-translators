@@ -32,7 +32,6 @@ module.exports={
             console.log(' words list is'+ words_list);
 
 			var randword = await this.get_random_word(words_list);
-            ranword=words_list[randword];
 
 			playerchar=playerchar.toObject();
 			rund_creature=rund_creature.toObject();
@@ -45,7 +44,7 @@ module.exports={
 				creature:rund_creature,
 				battleType:'creature', // creature, boss, duel
                 wordsList:words_list,
-                activeWord:ranword,
+                activeWord:randword,
 			}
 
 			var addBattle = new battleSchema(newobj)
@@ -69,18 +68,29 @@ module.exports={
 	async conectbattle(socket, obj){
 
 	},
-	async get_random_word(arr){
+	async get_random_word(arr,last){
 			var newword;
-			// var result =  await wordShema.find({});
-			var rand = randomInteger(0, arr.length-1);
-			console.log(rand);
-			return rand
+
+            function return_unique() {
+                var rand = randomInteger(0, arr.length-1);
+                newword = arr[rand];
+                if(last){
+                    if(arr[rand].english==last.english){
+                        console.log('dublicate');
+                        return_unique();
+                    }
+                }
+
+            }
+            return_unique()
+			return newword;
 
 	},
 	async kick(socket, obj){
-		console.log(obj);
-		var target_schema =  await battleSchema.findById(obj.battleid);
-		if(!target_schema){
+        console.log('kicked');
+		var target_schema =  await battleSchema.findById(obj.battleObj._id);
+		if(!target_schema || obj.word!=target_schema.activeWord.english){
+            console.log('errrrrrr');
 			socket.emit('kick_result',{
 				status:'404',
 				result:'not found'
@@ -88,14 +98,15 @@ module.exports={
 			return
 		}
 		var targetobj=target_schema.toObject();
+        var randword = await this.get_random_word(targetobj.wordsList,targetobj.activeWord);
+        targetobj.activeWord=randword;
 		var kick_result=  atackCalc(targetobj.players[0],targetobj.creature)
 		// targetobj.creature.activ_life -= targetobj.players[0].base_strength;
 
 
 		var up_shema= await target_schema.set(targetobj).save();
 		up_shema = up_shema.toObject();
-		up_shema.players[0].kick_result=kick_result.triger
-		up_shema.creature.kick_result=kick_result._target
+
 
 		var status= check_life(up_shema)
 
@@ -104,7 +115,7 @@ module.exports={
 			battleState:up_shema
 		}
 		// console.log(up_shema);
-		socket.emit('kicked',{
+		socket.emit('upword',{
 			status:'200',
 			result:battleobj
 		})

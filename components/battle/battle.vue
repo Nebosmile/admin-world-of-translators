@@ -36,23 +36,23 @@ export default {
 		socket:{
 			type: Object
 		},
-		battleid:{
-			type:String
+		battleObj:{
+			type:Object
 		}
 	},
 	methods:{
 		async useratack(){
+
+			var kickobj={
+				type:'creature',
+				battleObj:this.battleObj,
+				word:this.active_answer.join('')
+			}
 			this.active_answer=[];
 			this.word_question=[];
 			this.counter=0;
-			var kickobj={
-				type:'creature',
-				battleid:this.battleid
-			}
-			var answer= await this.get_random_word();
-			this.word_obj.active_word=answer.result;
 			this.socket.emit('kick', kickobj);
-			this.setwordArr();
+
 		},
 		setwordArr(){
 			console.log(this.word_obj.active_word);
@@ -102,19 +102,13 @@ export default {
 				return false;
 			}
 		},
-		get_random_word(){
-			return $.ajax({
-					url:'/admin/word/get_random_word',
-					type:'POST',
-					dataType:'json',
-				})
-		},
+
 		async start(){
 			this.active_answer=[];
 			this.word_question=[];
 			this.counter=0;
-			var answer= await this.get_random_word();
-			this.word_obj.active_word=answer.result;
+
+			this.word_obj.active_word=this.battleObj.activeWord;
 			this.setwordArr();
 		},
 		setSocketListener(){
@@ -123,6 +117,12 @@ export default {
 	},
 	mounted(){
 		this.start()
+		this.$parent.$on('upword',(active_word)=>{
+			console.log(active_word);
+			this.word_obj.active_word=active_word;
+			this.setwordArr();
+
+		})
 		this.setSocketListener()
 	}
 }

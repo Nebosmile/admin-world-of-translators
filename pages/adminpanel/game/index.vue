@@ -59,7 +59,7 @@
                         <p>{{user_char.name}}</p>
                         <p @click='test_socket'>Test socket</p>
                         <div class="">
-                            <battle :battleid='battleid' :socket='socket' @useratack='useratack'></battle>
+                            <battle :battleObj='battleObj' :socket='socket' @useratack='useratack'></battle>
                         </div>
 
                     </div>
@@ -121,7 +121,7 @@ export default {
             active_battle:false,
             user_ansver:'',
             socket:'',
-            battleid:'',
+            battleObj:'',
             battleResult:'',
 		}
 	},
@@ -142,7 +142,7 @@ export default {
                 }
             })
             this.socket.on('kicked',(message)=>{
-                console.log(message);
+                console.log(message.result);
 
                 if (message.status=='200') {
                     this.draw_battle(message.result.battleState);
@@ -153,12 +153,25 @@ export default {
                 }
 
             })
+            this.socket.on('upword',(message)=>{
+                if (message.status=='200') {
+                    this.draw_battle(message.result.battleState);
+                }
+                if(message.result.battleResult!=''){
+                    this.battleResult=message.result.battleResult;
+                    return
+                }
+                this.$emit('upword',message.result.battleState.activeWord)
+
+
+            })
         },
         draw_battle(battleObj){
+            console.log(battleObj);
             console.log('drawfunction');
             this.oponent=battleObj.creature
             this.user_char =battleObj.players[0];
-            this.battleid=battleObj._id;
+            this.battleObj=battleObj;
             this.battle=true;
         },
         add_battle(){
