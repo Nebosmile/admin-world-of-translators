@@ -6,23 +6,23 @@ const jwtsecret = require('../config.js').jwtsecret
 module.exports = {
 	async login(ctx, next) {
 
-		await passport.authenticate('local', function(err, user, info) {
+		await passport.authenticate('local', function(err, manager, info) {
 			if (err)
 				ctx.throw(err);
-			if (user) {
+			if (manager) {
 
 				const payload={
-					email: user.email,
-					_id: user._id,
+					email: manager.email,
+					_id: manager._id,
 				}
 
 
 				 const token = jwt.sign(payload, jwtsecret); //здесь создается JWT
 
 				 ctx.body = {
-					 email: user.email,
+					 email: manager.email,
 					 token:token,
-					 _id: user._id
+					 _id: manager._id
 				 };
 			} else {
 				if (info) {
@@ -36,11 +36,11 @@ module.exports = {
 		})(ctx, next)
 	},
 	async loginjwt(ctx, next) {
-		await	passport.authenticate('jwt', function (err, user, info){
+		await	passport.authenticate('jwt', function (err, manager, info){
 			if(err){
 				ctx.throw(err)
 			}
-			if(user){
+			if(manager){
 				ctx.body = {
 					status: 200,
 					result: 'success'
