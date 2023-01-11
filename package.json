@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "3.21.2",
+    "express": "4.18.2",
     "jsonwebtoken": "8.2.2",
     "koa": "2.3.0",
     "koa-body": "2.3.0",
@@ -25,7 +25,7 @@
     "koa-session-mongoose": "2.0.5",
     "koa-static": "4.0.1",
     "mongodb": "2.2.31",
-    "mongoose": "4.11.12",
+    "mongoose": "4.13.21",
     "mongoose-beautiful-unique-validation": "7.0.0",
     "node-sass": "4.7.2",
     "nuxt": "1.1.1",
